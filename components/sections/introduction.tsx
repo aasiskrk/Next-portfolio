@@ -4,10 +4,13 @@ import { Download, Github, Linkedin, Mail, Instagram, Code2, Sparkles } from "lu
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, cubicBezier } from "framer-motion"
 
 export function Introduction() {
+  const [isDownloading, setIsDownloading] = useState(false)
+  
   // Animation variants for smooth fade-in effects
+  const customEase = cubicBezier(0.25, 0.46, 0.45, 0.94);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -16,7 +19,7 @@ export function Introduction() {
         staggerChildren: 0.15,
         delayChildren: 0.2,
         duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94] // Custom easing for smooth movie-like feel
+        ease: customEase // Custom easing for smooth movie-like feel
       }
     }
   }
@@ -33,7 +36,7 @@ export function Introduction() {
       filter: "blur(0px)",
       transition: {
         duration: 1.2,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: customEase
       }
     }
   }
@@ -52,7 +55,7 @@ export function Introduction() {
       filter: "blur(0px)",
       transition: {
         duration: 1,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: customEase
       }
     }
   }
@@ -69,7 +72,7 @@ export function Introduction() {
       filter: "blur(0px)",
       transition: {
         duration: 1.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: customEase,
         delay: 0.3
       }
     }
@@ -90,26 +93,18 @@ export function Introduction() {
                 <Sparkles className="h-5 w-5 text-white" />
                 <p className="text-white text-lg font-semibold tracking-wide uppercase">Hello, I'm</p>
               </div>
-              <h1 className="text-7xl lg:text-8xl font-black text-white leading-none tracking-tight">Aashista</h1>
+              <h1 className="text-7xl lg:text-8xl font-black text-white leading-none tracking-tight">Aashista Karki</h1>
               <div className="h-1.5 w-96 bg-transparent rounded-full"></div>
             </motion.div>
             
             <motion.h2 
-              className="text-3xl lg:text-4xl text-transparent font-black leading-tight"
+              className="text-3xl text-white lg:text-4xl font-black leading-tight"
               variants={itemVariants}
             >
               Full Stack &<br />
-              <span className="text-transparent">Mobile App Developer</span>
+              <span className="">Mobile App Developer</span>
             </motion.h2>
 
-            <motion.p 
-              className="text-lg text-transparent leading-relaxed max-w-2xl font-semibold"
-              variants={itemVariants}
-            >
-              Passionate about creating beautiful, functional applications with Flutter and MERN stack. Specialized in
-              full-stack web development and cross-platform mobile applications with a keen eye for user experience and
-              modern design principles.
-            </motion.p>
           </div>
 
           <motion.div 
@@ -117,9 +112,30 @@ export function Introduction() {
             variants={containerVariants}
           >
             <motion.div variants={buttonVariants}>
-              <Button className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:text-white cursor-crosshair">
-                <Download className="mr-3 h-5 w-5" />
-                Download Resume
+              <Button 
+                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:text-white cursor-crosshair"
+                disabled={isDownloading}
+                onClick={() => {
+                  setIsDownloading(true);
+                  try {
+                    const link = document.createElement('a');
+                    link.href = '/cv/JulyCV.pdf';
+                    link.download = 'Aashista_Karki_Resume.pdf';
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  } catch (error) {
+                    console.error('Download failed:', error);
+                    // Fallback: open in new tab
+                    window.open('/cv/JulyCV.pdf', '_blank');
+                  } finally {
+                    setTimeout(() => setIsDownloading(false), 1000);
+                  }
+                }}
+              >
+                <Download className={`mr-3 h-5 w-5 ${isDownloading ? 'animate-spin' : ''}`} />
+                {isDownloading ? 'Downloading...' : 'Download Resume'}
               </Button>
             </motion.div>
             <motion.div variants={buttonVariants}>
@@ -176,12 +192,7 @@ export function Introduction() {
                 <div className="absolute bottom-12 left-8 w-12 h-12 glass-orb-premium rounded-full"></div>
                 <div className="absolute top-1/2 left-6 w-8 h-8 glass-orb-premium rounded-full"></div> */}
               </div>
-              <div className="inset-0 mt-5 flex flex-col items-center justify-center rounded-4xl frontface-hidden">
-                <span className="text-3xl lg:text-4xl font-black text-white text-center leading-tight select-none">
-                  Full Stack Web &<br />Flutter Developer
-                </span>
-                
-              </div>
+              
             </div>
         </motion.div>
       </motion.div>

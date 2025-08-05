@@ -87,11 +87,11 @@ export function ButtonScrollNavigation({ containerId, onScrollStart, onScrollEnd
 
   // Always show scroll buttons, but disable if not scrollable
   return (
-    <div className="absolute bottom-6 right-6 z-30 flex flex-col items-end space-y-3 glassmorphic-bg">
+    <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-30 flex flex-col items-end space-y-2 sm:space-y-3 glassmorphic-bg">
       {/* Up Arrow Button */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3">
         <span
-          className="text-gray-400 text-sm font-semibold tracking-wider uppercase select-none"
+          className="hidden sm:block text-gray-400 text-xs sm:text-sm font-semibold tracking-wider uppercase select-none"
           style={{
             transform: "rotate(-90deg)",
             transformOrigin: "center",
@@ -103,16 +103,16 @@ export function ButtonScrollNavigation({ containerId, onScrollStart, onScrollEnd
         <Button
           onClick={scrollUp}
           disabled={!canScrollUp || isScrolling}
-          className="glass-scroll-button w-12 h-12 rounded-full shadow-2xl disabled:opacity-50 transition-all duration-500 hover:scale-110 cursor-crosshair group"
+          className="glass-scroll-button w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-2xl disabled:opacity-50 transition-all duration-500 hover:scale-110 cursor-crosshair group"
         >
-          <ChevronUp className="h-5 w-5 text-white group-hover:text-gray-200 transition-colors duration-300" />
+          <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-white group-hover:text-gray-200 transition-colors duration-300" />
         </Button>
       </div>
 
       {/* Down Arrow Button */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3">
         <span
-          className="text-gray-400 text-sm font-semibold tracking-wider uppercase select-none"
+          className="hidden sm:block text-gray-400 text-xs sm:text-sm font-semibold tracking-wider uppercase select-none"
           style={{
             transform: "rotate(90deg)",
             transformOrigin: "center",
@@ -124,14 +124,14 @@ export function ButtonScrollNavigation({ containerId, onScrollStart, onScrollEnd
         <Button
           onClick={scrollDown}
           disabled={!canScrollDown || isScrolling}
-          className="glass-scroll-button w-12 h-12 rounded-full shadow-2xl disabled:opacity-50 transition-all duration-500 hover:scale-110 cursor-crosshair group"
+          className="glass-scroll-button w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-2xl disabled:opacity-50 transition-all duration-500 hover:scale-110 cursor-crosshair group"
         >
-          <ChevronDown className="h-5 w-5 text-white group-hover:text-gray-200 transition-colors duration-300" />
+          <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-white group-hover:text-gray-200 transition-colors duration-300" />
         </Button>
       </div>
 
       {/* Scroll Progress Indicator */}
-      <div className="glass-scroll-indicator w-1 h-12 rounded-full relative overflow-hidden mt-2">
+      <div className="glass-scroll-indicator w-1 h-8 sm:h-12 rounded-full relative overflow-hidden mt-1 sm:mt-2">
         <div
           className="glass-scroll-progress w-full rounded-full transition-all duration-300"
           style={{
