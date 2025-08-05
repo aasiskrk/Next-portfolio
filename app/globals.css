@@ -378,58 +378,6 @@ html {
     width: 48px;
     height: 48px;
   }
-
-  /* Mobile navigation adjustments */
-  .navigation-container {
-    width: calc(100vw - 2rem);
-    max-width: 400px;
-  }
-}
-
-/* Tablet optimizations */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .navigation-container {
-    width: auto;
-    min-width: 600px;
-  }
-}
-
-/* Small mobile devices */
-@media (max-width: 480px) {
-  .navigation-container {
-    width: calc(100vw - 1rem);
-    max-width: 350px;
-  }
-}
-
-/* Large screens */
-@media (min-width: 1280px) {
-  .navigation-container {
-    min-width: 800px;
-  }
-}
-
-/* Extra large screens */
-@media (min-width: 1536px) {
-  .navigation-container {
-    min-width: 900px;
-  }
-}
-
-/* Landscape mobile devices */
-@media (max-width: 768px) and (orientation: landscape) {
-  .navigation-container {
-    width: calc(100vw - 1rem);
-    max-width: 500px;
-  }
-}
-
-/* High DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .glass-nav-premium {
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-  }
 }
 
 /* Reduce motion for accessibility */
@@ -452,26 +400,6 @@ html {
 
 .duration-1000 {
   transition-duration: 1000ms;
-}
-
-/* Responsive navigation utilities */
-.navigation-container {
-  transition: all 0.3s ease-in-out;
-}
-
-/* Prevent text selection on mobile navigation */
-.navigation-container button {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Smooth mobile menu animations */
-.navigation-container .glass-nav-premium {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .perspective-1000 {

@@ -4,13 +4,10 @@ import { Download, Github, Linkedin, Mail, Instagram, Code2, Sparkles } from "lu
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { motion, cubicBezier } from "framer-motion"
+import { motion } from "framer-motion"
 
 export function Introduction() {
-  const [isDownloading, setIsDownloading] = useState(false)
-  
   // Animation variants for smooth fade-in effects
-  const customEase = cubicBezier(0.25, 0.46, 0.45, 0.94);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -19,7 +16,7 @@ export function Introduction() {
         staggerChildren: 0.15,
         delayChildren: 0.2,
         duration: 0.8,
-        ease: customEase // Custom easing for smooth movie-like feel
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] // Custom easing for smooth movie-like feel
       }
     }
   }
@@ -36,7 +33,7 @@ export function Introduction() {
       filter: "blur(0px)",
       transition: {
         duration: 1.2,
-        ease: customEase
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
       }
     }
   }
@@ -55,7 +52,7 @@ export function Introduction() {
       filter: "blur(0px)",
       transition: {
         duration: 1,
-        ease: customEase
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
       }
     }
   }
@@ -72,7 +69,7 @@ export function Introduction() {
       filter: "blur(0px)",
       transition: {
         duration: 1.5,
-        ease: customEase,
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
         delay: 0.3
       }
     }
@@ -112,31 +109,15 @@ export function Introduction() {
             variants={containerVariants}
           >
             <motion.div variants={buttonVariants}>
-              <Button 
-                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:text-white cursor-crosshair"
-                disabled={isDownloading}
-                onClick={() => {
-                  setIsDownloading(true);
-                  try {
-                    const link = document.createElement('a');
-                    link.href = '/cv/JulyCV.pdf';
-                    link.download = 'Aashista_Karki_Resume.pdf';
-                    link.target = '_blank';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  } catch (error) {
-                    console.error('Download failed:', error);
-                    // Fallback: open in new tab
-                    window.open('/cv/JulyCV.pdf', '_blank');
-                  } finally {
-                    setTimeout(() => setIsDownloading(false), 1000);
-                  }
-                }}
+              <motion.a
+                href="/cv/JulyCV.pdf"
+                download
+                whileTap={{ scale: 0.92, rotate: -3 }}
+                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:text-white cursor-crosshair flex items-center"
               >
-                <Download className={`mr-3 h-5 w-5 ${isDownloading ? 'animate-spin' : ''}`} />
-                {isDownloading ? 'Downloading...' : 'Download Resume'}
-              </Button>
+                <Download className="mr-3 h-5 w-5" />
+                Download Resume
+              </motion.a>
             </motion.div>
             <motion.div variants={buttonVariants}>
               <Button
