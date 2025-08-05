@@ -113,7 +113,7 @@ export function Introduction() {
                 href="/cv/JulyCV.pdf"
                 download
                 whileTap={{ scale: 0.92, rotate: -3 }}
-                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:text-white cursor-crosshair flex items-center"
+                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2x cursor-crosshair flex items-center"
               >
                 <Download className="mr-3 h-5 w-5" />
                 Download Resume
