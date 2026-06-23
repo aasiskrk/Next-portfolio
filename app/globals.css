@@ -16,15 +16,11 @@
     /* background-image:
       url('/images/krki.png'); */
     /* Layered Background */
-    background: 
-      /* Layer 1: Magenta Gradient (top layer, semi-transparent) */
-
-      /* Layer 2: krki.png texture */
-      url(''),
-      /* Layer 3: Base dark color */
-      /* radial-gradient(circle, #2b282b, #4f254f, #000000); */
+    background:
+      /* Layer 1: Magenta glow at top */
       radial-gradient(ellipse at top, #f472f4, transparent),
-      radial-gradient(ellipse at center,#0d000d);
+      /* Layer 2: Base dark color */
+      radial-gradient(ellipse at center, #0d000d);
       /* radial-gradient(ellipse at bottom, #ffffff, transparent); */
       /* #f472f4; */
 

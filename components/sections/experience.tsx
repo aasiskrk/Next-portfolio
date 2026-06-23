@@ -12,55 +12,55 @@ interface ExperienceProps {
 export function Experience({ onVerticalScrollStart, onVerticalScrollEnd }: ExperienceProps) {
   const experiences = [
     {
-      title: "Flutter Intern",
-      company: "Kitwosd IT Consulting and Solutions",
-      location: "Lalitpur, Nepal",
-      period: "June 2025 - Current",
-      type: "Internship",
+      title: "Full Stack Engineer",
+      company: "Arkenos",
+      location: "Remote",
+      period: "Nov 2025 - Present",
+      type: "Full-time",
       description:
-        "Internship focusing on android app development using Flutter. Contributed to building beautiful applications, implemented Clean Architecture, and collaborated with the development team on various client projects. Gained hands-on experience with Flutter, Dart, Map Integration, and knowledge of django for backend while following agile development methodologies.",
+        "Building full-stack web and mobile products end-to-end. Working across the stack with Next.js on the web and Flutter on mobile, and collaborating remotely with the team to design, develop and ship production features.",
       achievements: [
-        "Developed 3 android applications with Flutter using Django",
-        "Implemented responsive designs for mobile platforms",
-        "Collaborated with a team of 5 developers using Git and GitHub",
-        "Participated in agile development processes and sprint planning",
+        "Developing web applications with Next.js and React",
+        "Building cross-platform mobile apps with Flutter",
+        "Working across the full stack from UI to APIs and deployment",
+        "Collaborating in a remote, agile team environment",
       ],
-      technologies: ["Flutter", "Dart", "Django", "Python", "Git", "Agile", "REST APIs"],
+      technologies: ["Next.js", "React", "Flutter", "Dart", "Node.js", "Docker", "TypeScript"],
     },
 
     {
-      title: "Computer Science Student",
-      company: "Softwarica College of IT and E-Commerce",
-      location: "Kathmandu, Nepal",
-      period: "2022 - 2025",
-      type: "Education",
+      title: "Flutter Intern",
+      company: "Kitwosd IT Support Center",
+      location: "Lalitpur, Nepal",
+      period: "Jun 2025 - Aug 2025",
+      type: "Internship",
       description:
-        "Completed Bachelor's degree in Computer Science with focus on data structures, algorithms, mobile application development and modern web technologies. Actively participating in coding competitions and technical workshops.",
+        "On-site internship focused on mobile app development and design. Designed UI/UX in Figma and built Flutter applications, contributing to projects within an agile development team.",
       achievements: [
-        "Graduated with a First Class Honours Degree in Computing",
-        "Participated in multiple coding competitions",
-        "Participated in hackathons",
-        "Mentored junior students in programming",
+        "Designed mobile UI/UX using Figma",
+        "Developed Flutter applications following clean architecture",
+        "Collaborated on-site with the development team using Git",
+        "Participated in agile development processes",
       ],
-      technologies: ["Flutter", "Python", "Database Systems", "Git", "Agile", "REST APIs", "MERN Stack","Figma","Linux"],
+      technologies: ["Flutter", "Dart", "Figma", "UI/UX", "Git", "Agile"],
     },
 
-    // {
-    //   title: "Mobile App Development Intern",
-    //   company: "StartupTech Inc.",
-    //   location: "Remote",
-    //   period: "January 2024 - March 2024",
-    //   type: "Internship",
-    //   description:
-    //     "Focused on Flutter mobile app development for startup projects. Worked on cross-platform applications with emphasis on user experience and performance optimization. Collaborated with designers and backend developers.",
-    //   achievements: [
-    //     "Developed 2 production-ready mobile applications",
-    //     "Improved app performance by 40%",
-    //     "Implemented complex UI animations and interactions",
-    //     "Integrated multiple third-party APIs and services",
-    //   ],
-    //   technologies: ["Flutter", "Dart", "Firebase", "REST APIs", "UI/UX", "Performance Optimization"],
-    // },
+    {
+      title: "Bachelor's in Computer Science",
+      company: "Softwarica College of IT and E-commerce · Coventry University",
+      location: "Kathmandu, Nepal",
+      period: "Apr 2021 - Oct 2024",
+      type: "Education",
+      description:
+        "Completed a Bachelor's degree in Computer Science (Coventry University, UK affiliation) with a focus on mobile and web application development, data structures, algorithms and software engineering.",
+      achievements: [
+        "Graduated with a First Class Honours Degree in Computing",
+        "Built academic projects in Flutter and the MERN stack",
+        "Participated in coding competitions and hackathons",
+        "Mentored junior students in programming",
+      ],
+      technologies: ["Dart", "Android", "Flutter", "Python", "Java", "MERN Stack", "Figma", "Linux"],
+    },
   ]
 
   return (

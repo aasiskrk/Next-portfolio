@@ -1,12 +1,16 @@
 "use client"
 
-import { Download, Github, Linkedin, Mail, Instagram, Code2, Sparkles } from "lucide-react"
+import { ArrowRight, Github, Linkedin, Mail, Instagram, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
-export function Introduction() {
+interface IntroductionProps {
+  onViewProjects?: () => void
+  onContact?: () => void
+}
+
+export function Introduction({ onViewProjects, onContact }: IntroductionProps) {
   // Animation variants for smooth fade-in effects
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -94,7 +98,7 @@ export function Introduction() {
               <div className="h-1.5 w-96 bg-transparent rounded-full"></div>
             </motion.div>
             
-            <motion.h2 
+            <motion.h2
               className="text-3xl text-white lg:text-4xl font-black leading-tight"
               variants={itemVariants}
             >
@@ -102,29 +106,37 @@ export function Introduction() {
               <span className="">Mobile App Developer</span>
             </motion.h2>
 
+            <motion.p
+              className="text-lg text-gray-300 leading-relaxed max-w-xl font-medium"
+              variants={itemVariants}
+            >
+              Full Stack Engineer based in Kathmandu, Nepal. I build cross-platform mobile
+              apps with Flutter and full-stack web apps with Next.js and the MERN stack
+              and I've shipped real products to the Play Store, including
+              <span className="text-white font-semibold"> Patro+</span>, a Nepali calendar app with over 1.5k+ downloads.
+            </motion.p>
           </div>
 
-          <motion.div 
+          <motion.div
             className="flex flex-wrap gap-4"
             variants={containerVariants}
           >
             <motion.div variants={buttonVariants}>
-              <motion.a
-                href="/cv/JulyCV.pdf"
-                download
-                whileTap={{ scale: 0.92, rotate: -3 }}
-                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2x cursor-crosshair flex items-center"
+              <Button
+                onClick={onViewProjects}
+                className="glass-button-primary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-crosshair flex items-center"
               >
-                <Download className="mr-3 h-5 w-5" />
-                Download Resume
-              </motion.a>
+                View My Work
+                <ArrowRight className="ml-3 h-5 w-5" />
+              </Button>
             </motion.div>
             <motion.div variants={buttonVariants}>
               <Button
+                onClick={onContact}
                 variant="outline"
                 className="glass-button-secondary rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 hover:text-white bg-transparent cursor-crosshair"
               >
-                View Projects
+                Get In Touch
               </Button>
             </motion.div>
           </motion.div>

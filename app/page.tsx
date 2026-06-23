@@ -144,7 +144,10 @@ export default function Portfolio() {
           className="flex h-full min-h-0 transition-transform duration-1000 ease-out"
           style={{ width: `${sections.length * 100}vw` }}
         >
-          <Introduction />
+          <Introduction
+            onViewProjects={() => navigateToSection(1)}
+            onContact={() => navigateToSection(4)}
+          />
           <Projects onVerticalScrollStart={handleVerticalScrollStart} onVerticalScrollEnd={handleVerticalScrollEnd} />
           <Languages />
           <Experience onVerticalScrollStart={handleVerticalScrollStart} onVerticalScrollEnd={handleVerticalScrollEnd} />

@@ -1,12 +1,28 @@
 "use client"
 
-import { Mail, Github, Linkedin, Instagram, Send } from "lucide-react"
+import { useState } from "react"
+import { Mail, Github, Linkedin, Instagram, Send, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
+const EMAIL = "aasis.krk1@gmail.com"
+
 export function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const subject = form.subject || `Portfolio message from ${form.name || "someone"}`
+    const body = `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
   const contactLinks = [
     {
       name: "Gmail",
@@ -44,6 +60,10 @@ export function Contact() {
         <div className="text-center mb-12">
           <h2 className="text-5xl font-black text-white mb-4 tracking-tight">Get In Touch</h2>
           <p className="text-lg text-gray-400 font-medium">Let's work together on your next project</p>
+          <div className="flex items-center justify-center gap-2 mt-3 text-gray-400">
+            <MapPin className="h-4 w-4" />
+            <span className="text-base font-medium">Kathmandu, Nepal</span>
+          </div>
           <div className="h-1 w-24 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full mx-auto mt-4"></div>
         </div>
 
@@ -77,17 +97,25 @@ export function Contact() {
           </div>
 
           <Card className="glass-card-premium rounded-3xl p-8 hover:scale-105 transition-all duration-500 shadow-xl cursor-crosshair">
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <Input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
                     placeholder="Your Name"
                     className="glass-input-premium rounded-2xl h-12 text-base font-medium cursor-crosshair"
                   />
                 </div>
                 <div>
                   <Input
+                    name="email"
                     type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
                     placeholder="Your Email"
                     className="glass-input-premium rounded-2xl h-12 text-base font-medium cursor-crosshair"
                   />
@@ -95,18 +123,28 @@ export function Contact() {
               </div>
               <div>
                 <Input
+                  name="subject"
+                  value={form.subject}
+                  onChange={handleChange}
                   placeholder="Subject"
                   className="glass-input-premium rounded-2xl h-12 text-base font-medium cursor-crosshair"
                 />
               </div>
               <div>
                 <Textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
                   placeholder="Your Message"
                   rows={5}
                   className="glass-input-premium rounded-2xl text-base font-medium resize-none cursor-crosshair"
                 />
               </div>
-              <Button className="w-full glass-button-primary rounded-2xl py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 shadow-2xl cursor-crosshair">
+              <Button
+                type="submit"
+                className="w-full glass-button-primary rounded-2xl py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 shadow-2xl cursor-crosshair"
+              >
                 <Send className="mr-3 h-5 w-5" />
                 Send Message
               </Button>
