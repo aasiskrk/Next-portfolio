@@ -1,7 +1,6 @@
 "use client"
 
 import type { IconType } from "react-icons"
-import { motion } from "framer-motion"
 import {
   SiFlutter,
   SiDart,
@@ -20,7 +19,7 @@ import {
   SiLinux,
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
-import { SectionHeading, staggerContainer, revealItem } from "@/components/reveal"
+import { SectionHeading, StaggerGroup, RevealItem } from "@/components/reveal"
 
 interface Skill {
   name: string
@@ -52,17 +51,12 @@ export function Languages() {
       <div className="mx-auto max-w-5xl">
         <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-8% 0px" }}
-          className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4"
-        >
-          {skills.map(({ name, icon: Icon }) => (
-            <motion.div
+        <StaggerGroup className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+          {skills.map(({ name, icon: Icon }, i) => (
+            <RevealItem
               key={name}
-              variants={revealItem}
+              index={i}
+              step={0.05}
               className="glass-card-premium group flex flex-col items-center justify-center gap-4 rounded-[1.25rem] px-4 py-8"
             >
               <Icon
@@ -72,9 +66,9 @@ export function Languages() {
               <span className="text-sm font-medium text-white/70 transition-colors duration-500 group-hover:text-white">
                 {name}
               </span>
-            </motion.div>
+            </RevealItem>
           ))}
-        </motion.div>
+        </StaggerGroup>
       </div>
     </section>
   )

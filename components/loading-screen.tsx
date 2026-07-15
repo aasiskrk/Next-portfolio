@@ -24,10 +24,13 @@ function buildWave(width: number, waveWidth: number, amp: number, surfaceY: numb
 
 export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const rootRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
   const liquidRef = useRef<SVGGElement>(null)
   const waveRef = useRef<SVGPathElement>(null)
   const wave2Ref = useRef<SVGPathElement>(null)
   const outlineRef = useRef<SVGTextElement>(null)
+  const eyebrowRef = useRef<HTMLParagraphElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
   const [percent, setPercent] = useState(0)
 
   // viewBox geometry
@@ -80,17 +83,21 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const tl = gsap.timeline({
         delay: 0.5,
         onComplete: () => {
-          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.6 })
-          gsap.to(rootRef.current, {
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.inOut",
-            delay: 0.5,
+          // Exit: the filled name and overlay scale up and dissolve, "growing"
+          // the viewer into the homepage sitting underneath.
+          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.5 })
+          const exit = gsap.timeline({
+            delay: 0.45,
             onComplete: () => {
               document.body.style.overflow = prevOverflow
               onComplete()
             },
           })
+          exit
+            .to(svgRef.current, { scale: 1.35, duration: 1.1, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
+            .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.4, ease: "power2.in" }, 0)
+            .to(progressRef.current, { opacity: 0, y: 12, duration: 0.4, ease: "power2.in" }, 0)
+            .to(rootRef.current, { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 0.3)
         },
       })
 
@@ -124,10 +131,15 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       role="status"
     >
       {/* Eyebrow */}
-      <p className="mb-8 font-mono text-[10px] uppercase tracking-[0.5em] text-white/40 sm:text-xs">Portfolio</p>
+      <p
+        ref={eyebrowRef}
+        className="mb-8 font-mono text-[10px] uppercase tracking-[0.5em] text-white/40 sm:text-xs"
+      >
+        Portfolio
+      </p>
 
       {/* Fluid-fill name */}
-      <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="w-full max-w-3xl" role="img" aria-label={NAME}>
+      <svg ref={svgRef} viewBox={`0 0 ${VB_W} ${VB_H}`} className="w-full max-w-3xl" role="img" aria-label={NAME}>
         <defs>
           <clipPath id="name-clip">
             <text
@@ -162,9 +174,11 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           {NAME}
         </text>
 
-        {/* Liquid fill, clipped to the letters */}
+        {/* Liquid fill, clipped to the letters. The initial transform keeps the
+            liquid fully below the letters on first paint (before JS runs), so it
+            never flashes filled. */}
         <g clipPath="url(#name-clip)">
-          <g ref={liquidRef}>
+          <g ref={liquidRef} transform={`translate(0 ${VB_H - SURFACE_Y + 20})`}>
             <path ref={wave2Ref} d={wavePath2} fill="rgba(245,245,245,0.45)" />
             <path ref={waveRef} d={wavePath} fill="#f5f5f5" />
           </g>
@@ -172,7 +186,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       </svg>
 
       {/* Progress line + percent */}
-      <div className="mt-10 flex w-full max-w-xs items-center gap-4">
+      <div ref={progressRef} className="mt-10 flex w-full max-w-xs items-center gap-4">
         <div className="h-px flex-1 overflow-hidden bg-white/10">
           <div className="h-full bg-white/80 transition-none" style={{ width: `${percent}%` }} />
         </div>

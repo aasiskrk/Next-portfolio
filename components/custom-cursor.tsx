@@ -74,16 +74,18 @@ export function CustomCursor() {
   if (!enabled) return null
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[90] hidden md:block" aria-hidden="true">
+    <div
+      className="pointer-events-none fixed inset-0 z-[90] hidden mix-blend-difference md:block"
+      aria-hidden="true"
+    >
+      {/* Ring grows dramatically over interactive elements. mix-blend-difference
+          keeps it visible over any background (light or dark, images included). */}
       <div
         ref={ringRef}
         data-active="false"
-        className="fixed left-0 top-0 h-8 w-8 rounded-full border border-white/60 opacity-0 transition-[width,height,background-color,border-color] duration-300 ease-fluid data-[active=true]:h-12 data-[active=true]:w-12 data-[active=true]:border-white data-[active=true]:bg-white/10"
+        className="fixed left-0 top-0 h-9 w-9 rounded-full border border-white opacity-0 transition-[width,height,background-color] duration-300 ease-fluid data-[active=true]:h-16 data-[active=true]:w-16 data-[active=true]:border-transparent data-[active=true]:bg-white"
       />
-      <div
-        ref={dotRef}
-        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-white opacity-0"
-      />
+      <div ref={dotRef} className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-white opacity-0" />
     </div>
   )
 }

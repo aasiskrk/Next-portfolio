@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { Building, MapPin } from "lucide-react"
 import { motion, useScroll, useSpring } from "framer-motion"
 import { SectionHeading } from "@/components/reveal"
+import { useInView } from "@/components/use-in-view"
 
 interface ExperienceEntry {
   title: string
@@ -71,37 +72,36 @@ const experiences: ExperienceEntry[] = [
   },
 ]
 
-const EASE = [0.32, 0.72, 0, 1] as [number, number, number, number]
-
-// The timeline rail lives on this pixel line inside each row's padding box.
-// Nodes are centered on the exact same line so the rail passes dead-center.
-const RAIL = 14 // px from the left edge of the padded content
+// The rail and every node share this exact horizontal center (px from the
+// padded container's left edge), so the line always runs dead-center.
+const RAIL_CENTER = 24
 
 function TimelineEntry({ exp }: { exp: ExperienceEntry }) {
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-12% 0px" }}
-      transition={{ duration: 0.8, ease: EASE }}
-      className="relative pl-12 sm:pl-16"
-    >
-      {/* Node — centered exactly on the rail line */}
-      <motion.span
-        initial={{ scale: 0, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true, margin: "-12% 0px" }}
-        transition={{ duration: 0.5, ease: EASE, delay: 0.15 }}
-        className="absolute top-7 z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full border border-white/40 bg-[#0c0c0f]"
-        style={{ left: RAIL }}
-      >
-        <span className="h-2 w-2 rounded-full bg-white" />
-        <span className="absolute inset-0 rounded-full bg-white/20 blur-md" />
-      </motion.span>
+  const { ref, inView } = useInView<HTMLElement>({ margin: "0px 0px -12% 0px" })
 
-      <div className="glass-card-premium group relative rounded-[1.5rem] p-7 transition-transform duration-500 ease-fluid hover:-translate-y-1">
+  return (
+    <article ref={ref} className="relative pl-16">
+      {/* Node — positioned by a static wrapper (never overridden by animation);
+          only the inner element scales in. */}
+      <span
+        className="absolute top-7 z-10"
+        style={{ left: RAIL_CENTER, transform: "translateX(-50%)" }}
+      >
+        <span
+          className={`relative flex h-7 w-7 items-center justify-center rounded-full border border-white/40 bg-[#0c0c0f] transition-transform duration-500 ease-fluid ${
+            inView ? "scale-100" : "scale-0"
+          }`}
+        >
+          <span className="h-2 w-2 rounded-full bg-white" />
+          <span className="absolute inset-0 rounded-full bg-white/20 blur-md" />
+        </span>
+      </span>
+
+      <div
+        className={`reveal ${inView ? "is-visible" : ""} glass-card-premium group relative rounded-[1.5rem] p-7 transition-transform duration-500 ease-fluid hover:-translate-y-1`}
+      >
         {/* Oversized ghost year for depth */}
-        <span className="pointer-events-none absolute right-5 top-3 select-none font-mono text-5xl font-bold tracking-tight text-white/[0.04] sm:text-6xl">
+        <span className="pointer-events-none absolute right-5 top-3 select-none font-mono text-5xl font-bold tracking-tight text-white/[0.05] sm:text-6xl">
           {exp.year}
         </span>
 
@@ -146,7 +146,7 @@ function TimelineEntry({ exp }: { exp: ExperienceEntry }) {
           ))}
         </div>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
@@ -154,7 +154,7 @@ export function Experience() {
   const railRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: railRef,
-    offset: ["start 60%", "end 60%"],
+    offset: ["start 55%", "end 65%"],
   })
   const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
 
@@ -164,18 +164,24 @@ export function Experience() {
         <SectionHeading eyebrow="Journey" title="Experience" subtitle="My professional path so far." />
 
         <div ref={railRef} className="relative mt-14">
-          {/* Base rail track — sits on the RAIL line */}
+          {/* Base rail track — centered on RAIL_CENTER */}
           <span
-            className="absolute top-2 bottom-2 w-px -translate-x-1/2 bg-white/10"
-            style={{ left: RAIL }}
+            className="absolute top-2 bottom-2 w-px bg-white/10"
+            style={{ left: RAIL_CENTER, transform: "translateX(-50%)" }}
             aria-hidden="true"
           />
-          {/* Scroll-scrubbed fill that follows your scroll progress */}
-          <motion.span
-            className="absolute top-2 w-px -translate-x-1/2 origin-top bg-gradient-to-b from-white via-white/70 to-white/20"
-            style={{ left: RAIL, bottom: 8, scaleY: fill }}
+          {/* Scroll-scrubbed fill: static wrapper positions it; inner motion span
+              only scales vertically, so it can't drift off the rail. */}
+          <span
+            className="absolute top-2 w-px overflow-hidden"
+            style={{ left: RAIL_CENTER, bottom: 8, transform: "translateX(-50%)" }}
             aria-hidden="true"
-          />
+          >
+            <motion.span
+              className="block h-full w-full origin-top bg-gradient-to-b from-white via-white/70 to-white/20"
+              style={{ scaleY: fill }}
+            />
+          </span>
 
           <div className="space-y-6">
             {experiences.map((exp) => (

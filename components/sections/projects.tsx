@@ -1,8 +1,7 @@
 "use client"
 
 import { ArrowUpRight, Github } from "lucide-react"
-import { motion } from "framer-motion"
-import { SectionHeading, staggerContainer, revealItem } from "@/components/reveal"
+import { SectionHeading, StaggerGroup, RevealItem } from "@/components/reveal"
 
 interface Project {
   title: string
@@ -98,17 +97,13 @@ export function Projects() {
           subtitle="Apps I've shipped and things I've built."
         />
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-8% 0px" }}
-          className="mt-14 grid gap-5 md:grid-cols-2"
-        >
-          {projects.map((project) => (
-            <motion.article
+        <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-2">
+          {projects.map((project, i) => (
+            <RevealItem
               key={project.title}
-              variants={revealItem}
+              as="article"
+              index={i}
+              step={0.06}
               className="glass-card-premium group flex flex-col rounded-[1.5rem] p-7"
             >
               <div className="mb-3 flex items-start justify-between gap-3">
@@ -157,9 +152,9 @@ export function Projects() {
                   )}
                 </div>
               )}
-            </motion.article>
+            </RevealItem>
           ))}
-        </motion.div>
+        </StaggerGroup>
 
         <div className="mt-12 flex justify-center">
           <a
