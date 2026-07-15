@@ -2,7 +2,6 @@
 
 import { ArrowUpRight, Github } from "lucide-react"
 import { SectionHeading, StaggerGroup, RevealItem } from "@/components/reveal"
-import { StickyCardStack } from "@/components/sticky-card-stack"
 
 interface Project {
   title: string
@@ -88,12 +87,6 @@ const projects: Project[] = [
   },
 ]
 
-const projectCards = [
-  { id: "aura", title: "AURA", label: "Featured", color: "#00D9FF" },
-  { id: "kinetic", title: "KINETIC", label: "Mobile", color: "#FF006E" },
-  { id: "nexus", title: "NEXUS", label: "Full Stack", color: "#A000FF" },
-]
-
 export function Projects() {
   return (
     <section id="projects" className="relative px-5 py-24 sm:px-8 sm:py-32">
@@ -104,15 +97,7 @@ export function Projects() {
           subtitle="Apps I've shipped and things I've built."
         />
 
-        {/* Layout with sticky card stack on left and projects grid on right */}
-        <div className="mt-14 grid gap-8 lg:grid-cols-[350px_1fr] lg:items-start">
-          {/* Sticky Card Stack - Hidden on mobile, visible on desktop */}
-          <div className="hidden lg:block">
-            <StickyCardStack cards={projectCards} />
-          </div>
-
-          {/* Projects Grid */}
-          <StaggerGroup className="grid gap-5 md:grid-cols-2">
+        <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-2">
             {projects.map((project, i) => (
               <RevealItem
                 key={project.title}
@@ -169,8 +154,7 @@ export function Projects() {
                 )}
               </RevealItem>
             ))}
-          </StaggerGroup>
-        </div>
+        </StaggerGroup>
 
         <div className="mt-12 flex justify-center">
           <a
