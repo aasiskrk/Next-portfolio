@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion"
 import type { ReactNode } from "react"
+import { SplitText } from "@/components/split-text"
 
 const EASE = [0.32, 0.72, 0, 1] as [number, number, number, number]
 
@@ -71,18 +72,26 @@ export function SectionHeading({
   align?: "center" | "left"
 }) {
   return (
-    <Reveal className={align === "center" ? "text-center" : "text-left"}>
-      <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.4em] text-white/40">{eyebrow}</p>
-      <h2 className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-        {title}
-      </h2>
+    <div className={align === "center" ? "text-center" : "text-left"}>
+      <Reveal>
+        <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.4em] text-white/40">{eyebrow}</p>
+      </Reveal>
+      <SplitText
+        as="h2"
+        text={title}
+        by="word"
+        stagger={0.08}
+        className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl"
+      />
       {subtitle && (
-        <p
-          className={`mt-4 text-base text-white/50 sm:text-lg ${align === "center" ? "mx-auto max-w-xl" : "max-w-xl"}`}
-        >
-          {subtitle}
-        </p>
+        <Reveal delay={0.15}>
+          <p
+            className={`mt-4 text-base text-white/50 sm:text-lg ${align === "center" ? "mx-auto max-w-xl" : "max-w-xl"}`}
+          >
+            {subtitle}
+          </p>
+        </Reveal>
       )}
-    </Reveal>
+    </div>
   )
 }

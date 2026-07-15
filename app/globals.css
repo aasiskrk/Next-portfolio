@@ -50,6 +50,18 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Hide the native cursor only on precise-pointer devices, where the custom
+     cursor takes over. Touch devices keep their default behaviour. */
+  @media (pointer: fine) {
+    html,
+    body,
+    a,
+    button,
+    [data-cursor] {
+      cursor: none;
+    }
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;

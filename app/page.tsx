@@ -40,19 +40,34 @@ export default function Portfolio() {
 
   useEffect(() => {
     if (loading) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveId(entry.target.id)
-        })
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    )
-    sections.forEach((s) => {
-      const el = document.getElementById(s.id)
-      if (el) observer.observe(el)
-    })
-    return () => observer.disconnect()
+
+    let raf = 0
+    const compute = () => {
+      raf = 0
+      // Reference line at 40% of the viewport height. The active section is the
+      // last one whose top edge has crossed above that line. This is monotonic
+      // with scroll position, so no section can ever be skipped.
+      const line = window.innerHeight * 0.4
+      let current = sections[0].id
+      for (const s of sections) {
+        const el = document.getElementById(s.id)
+        if (!el) continue
+        if (el.getBoundingClientRect().top - line <= 0) current = s.id
+      }
+      setActiveId(current)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(compute)
+    }
+
+    compute()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
   }, [loading])
 
   return (
