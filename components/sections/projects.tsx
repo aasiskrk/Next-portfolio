@@ -1,14 +1,7 @@
 "use client"
 
-import { ExternalLink, Github } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { ScrollableSectionContainer } from "@/components/scrollable-section-container"
-
-interface ProjectsProps {
-  onVerticalScrollStart?: () => void
-  onVerticalScrollEnd?: () => void
-}
+import { ArrowUpRight, Github } from "lucide-react"
+import { SectionHeading, StaggerGroup, RevealItem } from "@/components/reveal"
 
 interface Project {
   title: string
@@ -24,7 +17,7 @@ const projects: Project[] = [
   {
     title: "Patro+ — Nepali Calendar",
     description:
-      "A published Nepali (Bikram Sambat) calendar app built with Flutter. It shows Nepali dates, holidays and festivals, and lets you set reminders that automatically repeat every year — for birthdays, anniversaries and events. Free, fully offline, no ads and no data collection.",
+      "A published Nepali (Bikram Sambat) calendar app built with Flutter. Shows Nepali dates, holidays and festivals, and lets you set reminders that repeat every year. Free, fully offline, no ads and no data collection.",
     technologies: ["Flutter", "Dart", "Android"],
     category: "Published App",
     demo: "https://play.google.com/store/apps/details?id=com.npc.patroplus",
@@ -42,7 +35,7 @@ const projects: Project[] = [
   {
     title: "redo_boilerplate",
     description:
-      "My first published Dart package, available on pub.dev. It generates a complete, opinionated project boilerplate with a single command — removing the repetitive setup at the start of every new Flutter project.",
+      "My first published Dart package on pub.dev. It generates a complete, opinionated project boilerplate with a single command — removing the repetitive setup at the start of every new Flutter project.",
     technologies: ["Dart", "Flutter", "pub.dev"],
     category: "Open Source",
     github: "https://github.com/aasiskrk/Redo-Boilerplate",
@@ -52,7 +45,7 @@ const projects: Project[] = [
   {
     title: "Restro POS",
     description:
-      "A full-featured restaurant Point of Sale system built with the MERN stack. Handles order management, billing, menu administration and staff workflows to streamline day-to-day restaurant operations.",
+      "A full-featured restaurant Point of Sale system built with the MERN stack. Handles order management, billing, menu administration and staff workflows to streamline restaurant operations.",
     technologies: ["React", "Node.js", "Express", "MongoDB"],
     category: "Full Stack",
     github: "https://github.com/aasiskrk/Restro-pos",
@@ -67,7 +60,7 @@ const projects: Project[] = [
   {
     title: "PlayForge — Gaming Forum",
     description:
-      "A community gaming forum built on the MERN stack where users can create posts, discuss games and interact. Includes authentication, threaded content and a responsive React UI.",
+      "A community gaming forum on the MERN stack where users create posts, discuss games and interact. Includes authentication, threaded content and a responsive React UI.",
     technologies: ["React", "Node.js", "Express", "MongoDB"],
     category: "Full Stack",
     github: "https://github.com/aasiskrk/React-Gaming-Forum",
@@ -94,96 +87,86 @@ const projects: Project[] = [
   },
 ]
 
-export function Projects({ onVerticalScrollStart, onVerticalScrollEnd }: ProjectsProps) {
+export function Projects() {
   return (
-    <section className="w-screen h-full min-h-0 flex flex-col px-8 flex-shrink-0 relative">
-      {/* Fixed Section Header */}
-      <div className="flex-shrink-0 text-center py-6 z-10">
-        <h2 className="text-5xl font-black text-white mb-4 tracking-tight">Featured Projects</h2>
-        <p className="text-lg text-gray-400 font-medium">Apps I've shipped and things I've built</p>
-        <div className="h-1 w-24 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full mx-auto mt-4"></div>
-      </div>
+    <section id="projects" className="relative px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="Selected Work"
+          title="Featured Projects"
+          subtitle="Apps I've shipped and things I've built."
+        />
 
-      {/* Scrollable Content Container */}
-      <div className="flex-1 min-h-0 relative">
-        <ScrollableSectionContainer
-          sectionId="projects-container"
-          onScrollStart={onVerticalScrollStart}
-          onScrollEnd={onVerticalScrollEnd}
-          onReachBottom={onVerticalScrollEnd}
-          onReachTop={undefined}
-          className="px-4 py-6"
-        >
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-6 pb-8">
-              {projects.map((project) => (
-                <Card
-                  key={project.title}
-                  className="glass-card-premium rounded-3xl p-7 flex flex-col hover:scale-[1.02] transition-all duration-500 group shadow-xl cursor-crosshair"
-                >
-                  <div className="flex items-start justify-between mb-3 gap-3">
-                    <h3 className="text-2xl font-black text-white group-hover:text-gray-300 transition-colors duration-500 tracking-tight">
-                      {project.title}
-                    </h3>
-                    <span className="px-3 py-1 glass-tag-small-premium rounded-full text-xs text-gray-400 font-semibold whitespace-nowrap">
-                      {project.category}
-                    </span>
-                  </div>
+        <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-2">
+          {projects.map((project, i) => (
+            <RevealItem
+              key={project.title}
+              as="article"
+              index={i}
+              step={0.06}
+              className="glass-card-premium group flex flex-col rounded-[1.5rem] p-7"
+            >
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <h3 className="text-xl font-semibold tracking-tight text-white">{project.title}</h3>
+                <span className="glass-tag-small-premium shrink-0 whitespace-nowrap rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-white/50">
+                  {project.category}
+                </span>
+              </div>
 
-                  <p className="text-gray-300 leading-relaxed text-sm mb-5 font-medium flex-1">
-                    {project.description}
-                  </p>
+              <p className="mb-6 flex-1 text-sm leading-relaxed text-white/50">{project.description}</p>
 
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 glass-tag-premium rounded-full text-xs text-gray-300 font-semibold"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              <div className="mb-6 flex flex-wrap gap-2">
+                {project.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="glass-tag-premium rounded-full px-3 py-1 text-xs font-medium text-white/70"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
 
-                  {(project.github || project.demo) && (
-                    <div className="flex items-center gap-3 mt-auto">
-                      {project.github && (
-                        <Button
-                          className="glass-button-primary rounded-xl shadow-lg font-semibold px-5 py-2 cursor-crosshair"
-                          onClick={() => window.open(project.github, "_blank", "noopener,noreferrer")}
-                        >
-                          <Github className="h-4 w-4 mr-2" />
-                          Code
-                        </Button>
-                      )}
-                      {project.demo && (
-                        <Button
-                          variant="outline"
-                          className="glass-button-secondary rounded-xl font-semibold px-5 py-2 bg-transparent cursor-crosshair hover:text-white"
-                          onClick={() => window.open(project.demo, "_blank", "noopener,noreferrer")}
-                        >
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          {project.demoLabel ?? "Live Demo"}
-                        </Button>
-                      )}
-                    </div>
+              {(project.github || project.demo) && (
+                <div className="mt-auto flex items-center gap-2.5">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="glass-button-secondary flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
+                    >
+                      <Github className="h-3.5 w-3.5" />
+                      Code
+                    </a>
                   )}
-                </Card>
-              ))}
-            </div>
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/btn flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-white/80 transition-colors hover:text-white"
+                    >
+                      {project.demoLabel ?? "Live Demo"}
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 ease-fluid group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </RevealItem>
+          ))}
+        </StaggerGroup>
 
-            <div className="flex justify-center pb-8">
-              <Button
-                variant="outline"
-                className="glass-button-secondary rounded-2xl px-8 py-4 text-base font-semibold bg-transparent cursor-crosshair hover:text-white"
-                onClick={() => window.open("https://github.com/aasiskrk", "_blank", "noopener,noreferrer")}
-              >
-                <Github className="h-5 w-5 mr-2" />
-                View More on GitHub
-              </Button>
-            </div>
-          </div>
-        </ScrollableSectionContainer>
+        <div className="mt-12 flex justify-center">
+          <a
+            href="https://github.com/aasiskrk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-button-secondary flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+          >
+            <Github className="h-4 w-4" />
+            View More on GitHub
+          </a>
+        </div>
       </div>
     </section>
   )

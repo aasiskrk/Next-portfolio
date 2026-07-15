@@ -1,5 +1,11 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import { SmoothScroll } from '@/components/smooth-scroll'
+import { CustomCursor } from '@/components/custom-cursor'
 import './globals.css'
+
+const geistSans = Geist({ subsets: ['latin'], variable: '--font-sans' })
+const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 const siteUrl = 'https://www.aashistakarki.com.np'
 const description =
@@ -39,14 +45,24 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: '#08080a',
+  colorScheme: 'dark',
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={`dark bg-background ${geistSans.variable} ${geistMono.variable}`}>
+      <body className="font-sans antialiased">
+        <SmoothScroll />
+        <CustomCursor />
+        <div className="grain-overlay" aria-hidden="true" />
+        {children}
+      </body>
     </html>
   )
 }

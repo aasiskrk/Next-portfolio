@@ -1,13 +1,24 @@
 "use client"
 
 import { useState } from "react"
-import { Mail, Github, Linkedin, Instagram, Send, MapPin } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Mail, Github, Linkedin, Instagram, Send, MapPin, ArrowUpRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { SectionHeading, Reveal } from "@/components/reveal"
 
 const EMAIL = "aasis.krk1@gmail.com"
+
+const contactLinks = [
+  { name: "Gmail", icon: Mail, href: "mailto:aasis.krk1@gmail.com", value: "aasis.krk1@gmail.com" },
+  { name: "GitHub", icon: Github, href: "https://github.com/aasiskrk", value: "github.com/aasiskrk" },
+  {
+    name: "LinkedIn",
+    icon: Linkedin,
+    href: "https://linkedin.com/in/aashista-karki-69420g",
+    value: "linkedin.com/in/aashista-karki-69420g",
+  },
+  { name: "Instagram", icon: Instagram, href: "https://instagram.com/aashista_krki", value: "@aashista_krki" },
+]
 
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
@@ -23,133 +34,86 @@ export function Contact() {
     window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
-  const contactLinks = [
-    {
-      name: "Gmail",
-      icon: Mail,
-      href: "mailto:aasis.krk1@gmail.com",
-      value: "aasis.krk1@gmail.com",
-      color: "bg-red-500/20 text-red-400 border-red-500/30",
-    },
-    {
-      name: "GitHub",
-      icon: Github,
-      href: "https://github.com/aasiskrk",
-      value: "github.com/aasiskrk",
-      color: "bg-gray-600/20 text-gray-300 border-gray-500/30",
-    },
-    {
-      name: "LinkedIn",
-      icon: Linkedin,
-      href: "https://linkedin.com/in/aashista-karki-69420g",
-      value: "linkedin.com/in/aashista-karki-69420g",
-      color: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-    },
-    {
-      name: "Instagram",
-      icon: Instagram,
-      href: "https://instagram.com/aashista_krki",
-      value: "@aashista_krki",
-      color: "bg-pink-500/20 text-pink-400 border-pink-500/30",
-    },
-  ]
-
   return (
-    <section className="w-screen h-auto flex items-center justify-center px-8 flex-shrink-0">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-5xl font-black text-white mb-4 tracking-tight">Get In Touch</h2>
-          <p className="text-lg text-gray-400 font-medium">Let's work together on your next project</p>
-          <div className="flex items-center justify-center gap-2 mt-3 text-gray-400">
-            <MapPin className="h-4 w-4" />
-            <span className="text-base font-medium">Kathmandu, Nepal</span>
-          </div>
-          <div className="h-1 w-24 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full mx-auto mt-4"></div>
-        </div>
+    <section id="contact" className="relative px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
 
-        <div className="grid lg:grid-cols-2 gap-10">
-          <div className="space-y-4">
-            {contactLinks.map((contact) => (
-              <Card
-                key={contact.name}
-                className="glass-card-premium rounded-3xl p-6 hover:scale-105 transition-all duration-500 shadow-xl group cursor-crosshair"
+        <Reveal className="mt-4 flex items-center justify-center gap-2 text-white/40">
+          <MapPin className="h-4 w-4" />
+          <span className="text-sm font-medium">Kathmandu, Nepal</span>
+        </Reveal>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          {/* Links */}
+          <Reveal className="flex flex-col gap-3">
+            {contactLinks.map((c) => (
+              <a
+                key={c.name}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="glass-card-premium group flex items-center gap-4 rounded-[1.25rem] p-5"
               >
-                <div className="flex items-center space-x-4">
-                  <div
-                    className={`p-4 rounded-2xl ${contact.color} border transition-all duration-500 group-hover:scale-110`}
-                  >
-                    <contact.icon className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-black text-lg mb-1 tracking-tight">{contact.name}</h3>
-                    <a
-                      href={contact.href}
-                      target={contact.href.startsWith("http") ? "_blank" : undefined}
-                      rel={contact.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="text-gray-400 hover:text-white transition-colors duration-500 text-base font-medium cursor-crosshair"
-                    >
-                      {contact.value}
-                    </a>
-                  </div>
-                </div>
-              </Card>
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/5 text-white/70 transition-colors duration-500 group-hover:text-white">
+                  <c.icon className="h-5 w-5" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-white">{c.name}</span>
+                  <span className="block truncate text-sm text-white/45">{c.value}</span>
+                </span>
+                <ArrowUpRight className="h-4 w-4 text-white/30 transition-all duration-500 ease-fluid group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+              </a>
             ))}
-          </div>
+          </Reveal>
 
-          <Card className="glass-card-premium rounded-3xl p-8 hover:scale-105 transition-all duration-500 shadow-xl cursor-crosshair">
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Input
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your Name"
-                    className="glass-input-premium rounded-2xl h-12 text-base font-medium cursor-crosshair"
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="email"
-                    type="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your Email"
-                    className="glass-input-premium rounded-2xl h-12 text-base font-medium cursor-crosshair"
-                  />
-                </div>
-              </div>
-              <div>
+          {/* Form */}
+          <Reveal delay={0.1}>
+            <form onSubmit={handleSubmit} className="glass-card-premium flex flex-col gap-4 rounded-[1.5rem] p-7">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <Input
-                  name="subject"
-                  value={form.subject}
-                  onChange={handleChange}
-                  placeholder="Subject"
-                  className="glass-input-premium rounded-2xl h-12 text-base font-medium cursor-crosshair"
-                />
-              </div>
-              <div>
-                <Textarea
-                  name="message"
-                  value={form.message}
+                  name="name"
+                  value={form.name}
                   onChange={handleChange}
                   required
-                  placeholder="Your Message"
-                  rows={5}
-                  className="glass-input-premium rounded-2xl text-base font-medium resize-none cursor-crosshair"
+                  placeholder="Your name"
+                  className="glass-input-premium h-12 rounded-xl text-sm"
+                />
+                <Input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Your email"
+                  className="glass-input-premium h-12 rounded-xl text-sm"
                 />
               </div>
-              <Button
+              <Input
+                name="subject"
+                value={form.subject}
+                onChange={handleChange}
+                placeholder="Subject"
+                className="glass-input-premium h-12 rounded-xl text-sm"
+              />
+              <Textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                required
+                placeholder="Your message"
+                rows={5}
+                className="glass-input-premium resize-none rounded-xl text-sm"
+              />
+              <button
                 type="submit"
-                className="w-full glass-button-primary rounded-2xl py-4 text-lg font-semibold transition-all duration-500 hover:scale-105 shadow-2xl cursor-crosshair"
+                className="glass-button-primary group flex items-center justify-center gap-2.5 rounded-full py-3.5 text-sm font-semibold"
               >
-                <Send className="mr-3 h-5 w-5" />
+                <Send className="h-4 w-4 transition-transform duration-500 ease-fluid group-hover:translate-x-0.5" />
                 Send Message
-              </Button>
+              </button>
             </form>
-          </Card>
+          </Reveal>
         </div>
       </div>
     </section>

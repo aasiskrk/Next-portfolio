@@ -1,87 +1,63 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ChevronRight, ChevronLeft } from "lucide-react"
+import { motion, useScroll, useSpring } from "framer-motion"
+import type { NavSection } from "@/components/navigation"
 
-interface SectionIndicatorProps {
-  sections: string[]
-  currentSection: number
-  onNavigate: (index: number) => void
+interface ScrollProgressProps {
+  sections: NavSection[]
+  activeId: string
+  onNavigate: (id: string) => void
 }
 
-export function SectionIndicator({ sections, currentSection, onNavigate }: SectionIndicatorProps) {
-  const [showTransition, setShowTransition] = useState(false)
+export function ScrollProgress({ sections, activeId, onNavigate }: ScrollProgressProps) {
+  const [mounted, setMounted] = useState(false)
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 })
 
-  useEffect(() => {
-    setShowTransition(true)
-    const timer = setTimeout(() => setShowTransition(false), 2000)
-    return () => clearTimeout(timer)
-  }, [currentSection])
-
-  const nextSection = currentSection < sections.length - 1 ? currentSection + 1 : null
-  const prevSection = currentSection > 0 ? currentSection - 1 : null
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return null
 
   return (
-    <div
-      className={`fixed top-1/2 left-8 transform -translate-y-1/2 z-50 transition-all duration-500 ${
-        showTransition ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-      }`}
-    >
-      <div className="glassmorphic-nav rounded-2xl p-4 space-y-3 shadow-2xl border border-white/10 backdrop-blur-xl bg-white/10">
-        {/* Previous Section */}
-        {prevSection !== null && (
-          <button
-            onClick={() => onNavigate(prevSection)}
-            className="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors duration-300"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="text-sm font-semibold">{sections[prevSection]}</span>
-          </button>
-        )}
+    <>
+      {/* Top progress bar */}
+      <motion.div
+        className="fixed inset-x-0 top-0 z-[55] h-[2px] origin-left bg-white/70"
+        style={{ scaleX }}
+      />
 
-        {/* Current Section */}
-        <div className="flex items-center space-x-3 text-white">
-          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-          <span className="text-sm font-bold">{sections[currentSection]}</span>
-        </div>
-
-        {/* Next Section */}
-        {nextSection !== null && (
-          <button
-            onClick={() => onNavigate(nextSection)}
-            className="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors duration-300"
-          >
-            <ChevronRight className="h-4 w-4" />
-            <span className="text-sm font-semibold">{sections[nextSection]}</span>
-          </button>
-        )}
-      </div>
-    </div>
-  )
-}
-
-export function SectionIndicatorClassic({ sections, currentSection, onNavigate }: SectionIndicatorProps) {
-  return (
-    <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-50 mb-4">
-      <div className="glassmorphic-nav rounded-full px-6 py-3 shadow-2xl border border-white/10 backdrop-blur-xl bg-white/10">
-        <div className="flex space-x-3">
-          {sections.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => onNavigate(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-500 relative cursor-crosshair ${
-                currentSection === index
-                  ? "bg-white scale-125 shadow-lg"
-                  : "bg-gray-500 hover:bg-gray-300 hover:scale-110"
-              }`}
-            >
-              {currentSection === index && (
-                <div className="absolute inset-0 bg-white/50 rounded-full animate-pulse"></div>
-              )}
-            </button>
-          ))}
+      {/* Right-side dot rail (desktop) — sits on a glass pill so it stays
+          legible over images and light sections. */}
+      <div className="fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 lg:block">
+        <div className="flex flex-col items-center gap-4 rounded-full border border-white/10 bg-black/40 px-2.5 py-4 backdrop-blur-md">
+          {sections.map((s) => {
+            const active = activeId === s.id
+            return (
+              <button
+                key={s.id}
+                onClick={() => onNavigate(s.id)}
+                className="group relative flex items-center justify-center"
+                aria-label={`Go to ${s.label}`}
+              >
+                <span
+                  className={`pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md bg-black/70 px-2 py-1 font-mono text-[10px] uppercase tracking-widest backdrop-blur transition-all duration-300 ${
+                    active
+                      ? "text-white opacity-100"
+                      : "translate-x-1 text-white/60 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                  }`}
+                >
+                  {s.label}
+                </span>
+                <span
+                  className={`rounded-full transition-all duration-500 ease-fluid ${
+                    active ? "h-2.5 w-2.5 bg-white" : "h-2 w-2 bg-white/30 group-hover:bg-white/70"
+                  }`}
+                />
+              </button>
+            )
+          })}
         </div>
       </div>
-    </div>
+    </>
   )
 }
