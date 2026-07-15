@@ -1,0 +1,566 @@
+{
+  "url": "https://www.houseofhoney.com/",
+  "extractedAt": "2026-07-15T18:00:55.809Z",
+  "siteName": "House of Honey",
+  "logo": {
+    "source": "svg",
+    "url": "https://www.houseofhoney.com/",
+    "width": 40,
+    "height": 19.71875,
+    "safeZone": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "background": "rgb(237, 204, 190)"
+  },
+  "favicons": [
+    {
+      "type": "icon",
+      "url": "https://cdn.sanity.io/images/h1ekyplu/production/9a6ebc627139ea594a4cb06433ebc899b1037ef8-600x600.png?w=64&h=64&fm=png&q=85&fit=crop",
+      "sizes": null
+    },
+    {
+      "type": "og:image",
+      "url": "https://cdn.sanity.io/images/h1ekyplu/production/edea36ea8165ada74336d6c76b8ed78151e326cb-1200x630.jpg?w=1200&h=630&max-h=2048&max-w=2048&q=85&fit=crop&auto=format",
+      "sizes": null
+    },
+    {
+      "type": "twitter:image",
+      "url": "https://cdn.sanity.io/images/h1ekyplu/production/edea36ea8165ada74336d6c76b8ed78151e326cb-1200x630.jpg?w=1200&h=630&max-h=2048&max-w=2048&q=85&fit=crop&auto=format",
+      "sizes": null
+    },
+    {
+      "type": "favicon.ico",
+      "url": "https://www.houseofhoney.com/favicon.ico",
+      "sizes": null
+    }
+  ],
+  "colors": {
+    "semantic": {
+      "secondary": "rgb(237, 204, 190)",
+      "primary": "rgb(51, 25, 23)"
+    },
+    "palette": [
+      {
+        "color": "rgb(51, 25, 23)",
+        "normalized": "#331917",
+        "count": 174,
+        "confidence": "high",
+        "sources": [
+          "relative",
+          "flex",
+          "px-8"
+        ],
+        "lch": "lch(12.36% 14.54 29.21)",
+        "oklch": "oklch(24.93% 0.042 25.18)"
+      },
+      {
+        "color": "rgb(252, 114, 196)",
+        "normalized": "#fc72c4",
+        "count": 43,
+        "confidence": "high",
+        "sources": [],
+        "lch": "lch(67.07% 63.84 344.23)",
+        "oklch": "oklch(74.09% 0.19 346.05)"
+      },
+      {
+        "color": "rgb(255, 255, 255)",
+        "normalized": "#ffffff",
+        "count": 11,
+        "confidence": "medium",
+        "sources": [],
+        "lch": "lch(100% 0 158.2)",
+        "oklch": "oklch(100% 0 89.88)"
+      },
+      {
+        "color": "oklab",
+        "normalized": "oklab",
+        "count": 9,
+        "confidence": "high",
+        "sources": [
+          "flex"
+        ]
+      },
+      {
+        "color": "rgb(238, 199, 190)",
+        "normalized": "#eec7be",
+        "count": 1,
+        "confidence": "medium",
+        "sources": [
+          "hover/focus"
+        ]
+      },
+      {
+        "color": "rgb(238, 200, 190)",
+        "normalized": "#eec8be",
+        "count": 1,
+        "confidence": "medium",
+        "sources": [
+          "hover/focus"
+        ]
+      }
+    ],
+    "cssVariables": {
+      "--color-base-dark-green": {
+        "value": "#003933",
+        "lch": "lch(20.69% 18.78 183.44)",
+        "oklch": "oklch(30.95% 0.055 183.5)"
+      },
+      "--color-base-blush-pink": {
+        "value": "#edccbe",
+        "lch": "lch(84.44% 14.68 50.07)",
+        "oklch": "oklch(86.94% 0.042 44.33)"
+      },
+      "--color-accent-lime": {
+        "value": "#aff552",
+        "lch": "lch(89.41% 82.44 123.73)",
+        "oklch": "oklch(89.31% 0.203 129.77)"
+      },
+      "--color-white": {
+        "value": "#fff",
+        "lch": "lch(100% 0 158.2)",
+        "oklch": "oklch(100% 0 89.88)"
+      },
+      "--color-accent-honey": {
+        "value": "#edbc00",
+        "lch": "lch(78.45% 80.49 87)",
+        "oklch": "oklch(81.58% 0.167 89.67)"
+      },
+      "--color-error": {
+        "value": "#d41203",
+        "lch": "lch(44.86% 89.14 40.36)",
+        "oklch": "oklch(55.09% 0.22 29.91)"
+      },
+      "--color-base-light-green": {
+        "value": "#d8ce7e",
+        "lch": "lch(81.97% 41.7 100.76)",
+        "oklch": "oklch(84.19% 0.102 102.11)"
+      },
+      "--color-black": {
+        "value": "#000",
+        "lch": "lch(0% 0 0)",
+        "oklch": "oklch(0% 0 0)"
+      },
+      "--color-base-orange": {
+        "value": "#ffeacf",
+        "lch": "lch(93.72% 15.98 79.44)",
+        "oklch": "oklch(94.7% 0.042 74.16)"
+      },
+      "--color-base-red": {
+        "value": "#d1410f",
+        "lch": "lch(48.73% 78.46 45.73)",
+        "oklch": "oklch(57.88% 0.188 36.62)"
+      }
+    },
+    "_raw": [
+      {
+        "color": "rgb(237, 204, 190)",
+        "normalized": "#edccbe",
+        "count": 453
+      },
+      {
+        "color": "rgb(51, 25, 23)",
+        "normalized": "#331917",
+        "count": 174
+      },
+      {
+        "color": "oklab",
+        "normalized": "oklab",
+        "count": 9
+      },
+      {
+        "color": "rgb(252, 114, 196)",
+        "normalized": "#fc72c4",
+        "count": 43
+      },
+      {
+        "color": "rgb(255, 255, 255)",
+        "normalized": "#ffffff",
+        "count": 11
+      }
+    ]
+  },
+  "typography": {
+    "styles": [
+      {
+        "context": "heading-1",
+        "family": "canora",
+        "fallbacks": "canora Fallback",
+        "size": "580px (36.25rem)",
+        "weight": 400,
+        "lineHeight": "1.00",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "noeText",
+        "fallbacks": "noeText Fallback",
+        "size": "64px (4.00rem)",
+        "weight": 400,
+        "lineHeight": "1.00",
+        "spacing": "-1.28px",
+        "transform": "uppercase"
+      },
+      {
+        "context": "heading-1",
+        "family": "noeText",
+        "fallbacks": "noeText Fallback",
+        "size": "48px (3.00rem)",
+        "weight": 400,
+        "lineHeight": "1.00",
+        "spacing": "-0.96px",
+        "transform": "uppercase"
+      },
+      {
+        "context": "heading-1",
+        "family": "noeText",
+        "fallbacks": "noeText Fallback",
+        "size": "32px (2.00rem)",
+        "weight": 400,
+        "lineHeight": "1.00",
+        "spacing": "-0.64px",
+        "transform": "uppercase"
+      },
+      {
+        "context": "heading-1",
+        "family": "noeText",
+        "fallbacks": "noeText Fallback",
+        "size": "22px (1.38rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": "-0.44px",
+        "transform": "uppercase"
+      },
+      {
+        "context": "link",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "20px (1.25rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "20px (1.25rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "18px (1.13rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "link",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "18px (1.13rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "button",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "18px (1.13rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "18px (1.13rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": "uppercase"
+      },
+      {
+        "context": "heading-1",
+        "family": "ui-sans-serif",
+        "fallbacks": "system-ui, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji",
+        "size": "16px (1.00rem)",
+        "weight": 400,
+        "lineHeight": "1.50",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "link",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "16px (1.00rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "16px (1.00rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "neueHaasGrotesk",
+        "fallbacks": "neueHaasGrotesk Fallback",
+        "size": "16px (1.00rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": "uppercase"
+      }
+    ],
+    "sources": {
+      "googleFonts": [],
+      "adobeFonts": false,
+      "variableFonts": false
+    }
+  },
+  "spacing": {
+    "scaleType": "8px",
+    "commonValues": [
+      {
+        "px": "8px",
+        "rem": "0.50rem",
+        "count": 10,
+        "numericValue": 8
+      },
+      {
+        "px": "16px",
+        "rem": "1.00rem",
+        "count": 9,
+        "numericValue": 16
+      },
+      {
+        "px": "24px",
+        "rem": "1.50rem",
+        "count": 5,
+        "numericValue": 24
+      },
+      {
+        "px": "50px",
+        "rem": "3.13rem",
+        "count": 1,
+        "numericValue": 50
+      },
+      {
+        "px": "72px",
+        "rem": "4.50rem",
+        "count": 1,
+        "numericValue": 72
+      },
+      {
+        "px": "80px",
+        "rem": "5.00rem",
+        "count": 6,
+        "numericValue": 80
+      },
+      {
+        "px": "102px",
+        "rem": "6.38rem",
+        "count": 8,
+        "numericValue": 102
+      },
+      {
+        "px": "264px",
+        "rem": "16.50rem",
+        "count": 4,
+        "numericValue": 264
+      },
+      {
+        "px": "584.016px",
+        "rem": "36.50rem",
+        "count": 1,
+        "numericValue": 584.016
+      }
+    ]
+  },
+  "borderRadius": {
+    "values": [
+      {
+        "value": "9999px",
+        "count": 2,
+        "elements": [
+          "Home",
+          "Open menu"
+        ],
+        "confidence": "low",
+        "numericValue": 9999
+      }
+    ]
+  },
+  "borders": {
+    "combinations": [
+      {
+        "width": "1px 0px 0px",
+        "style": "solid",
+        "color": "oklab(0.869408 0.0301102 0.0293909 / 0.3)",
+        "count": 3,
+        "elements": [
+          "div"
+        ],
+        "confidence": "low"
+      },
+      {
+        "width": "1px 0px 0px",
+        "style": "solid",
+        "color": "rgb(51, 25, 23)",
+        "count": 2,
+        "elements": [
+          "a"
+        ],
+        "confidence": "low"
+      },
+      {
+        "width": "1px 0px 0px",
+        "style": "solid",
+        "color": "rgb(237, 204, 190)",
+        "count": 1,
+        "elements": [
+          "a"
+        ],
+        "confidence": "low"
+      }
+    ]
+  },
+  "shadows": [],
+  "components": {
+    "buttons": [
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgb(237, 204, 190)",
+            "color": "rgb(51, 25, 23)",
+            "padding": "0px 4px 0px 8px",
+            "borderRadius": "0px",
+            "border": "0px solid rgb(51, 25, 23)",
+            "boxShadow": "none",
+            "outline": "rgb(51, 25, 23) none 3px",
+            "transform": "none",
+            "opacity": "1"
+          },
+          "hover": {},
+          "active": {},
+          "focus": null
+        },
+        "fontWeight": "400",
+        "fontSize": "16px",
+        "classes": "relative flex h-full min-w-0 items-center justify-",
+        "confidence": "medium"
+      },
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "oklab(0.249303 0.0380599 0.0178903 / 0.2)",
+            "color": "rgb(51, 25, 23)",
+            "padding": "0px",
+            "borderRadius": "0px",
+            "border": "0px solid rgb(51, 25, 23)",
+            "boxShadow": "none",
+            "outline": "rgb(51, 25, 23) none 3px",
+            "transform": "none",
+            "opacity": "1"
+          },
+          "hover": null,
+          "active": null,
+          "focus": null
+        },
+        "fontWeight": "400",
+        "fontSize": "16px",
+        "classes": "flex size-24 shrink-0 items-center justify-center ",
+        "confidence": "medium"
+      }
+    ],
+    "inputs": {
+      "text": [],
+      "checkbox": [],
+      "radio": [],
+      "select": []
+    },
+    "links": [
+      {
+        "color": "rgb(51, 25, 23)",
+        "textDecoration": "none",
+        "fontWeight": "400",
+        "states": {
+          "default": {
+            "color": "rgb(51, 25, 23)",
+            "textDecoration": "none"
+          },
+          "hover": null
+        }
+      },
+      {
+        "color": "rgb(237, 204, 190)",
+        "textDecoration": "none",
+        "fontWeight": "400",
+        "states": {
+          "default": {
+            "color": "rgb(237, 204, 190)",
+            "textDecoration": "none"
+          },
+          "hover": null
+        }
+      }
+    ],
+    "badges": {
+      "all": [],
+      "byVariant": {
+        "error": [],
+        "warning": [],
+        "success": [],
+        "info": [],
+        "neutral": []
+      }
+    }
+  },
+  "breakpoints": [],
+  "iconSystem": [],
+  "frameworks": [
+    {
+      "name": "Tailwind CSS",
+      "confidence": "high",
+      "evidence": "arbitrary values (e.g., top-[117px]), responsive/state modifiers"
+    },
+    {
+      "name": "DaisyUI",
+      "confidence": "high",
+      "evidence": "Tailwind + 0 DaisyUI components"
+    },
+    {
+      "name": "PrimeReact/Vue/NG",
+      "confidence": "high",
+      "evidence": "63 Prime components"
+    },
+    {
+      "name": "Fluent UI",
+      "confidence": "high",
+      "evidence": "41 Fluent components"
+    }
+  ]
+}

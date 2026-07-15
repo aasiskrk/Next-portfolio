@@ -12,82 +12,62 @@ interface PageTransitionWrapperProps {
   triggerLetter?: string
 }
 
-export function PageTransitionWrapper({
-  children,
-  sectionId,
-  triggerLetter = "P",
-}: PageTransitionWrapperProps) {
+export function PageTransitionWrapper({ children, sectionId }: PageTransitionWrapperProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const section = sectionRef.current
     if (!section) return
 
-    const headingElement = section.querySelector("h1, h2, h3")
-    const contentElements = section.querySelectorAll("[data-reveal]")
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const heading = section.querySelector("h1, h2, h3")
+    const content = gsap.utils.toArray<HTMLElement>(section.querySelectorAll("[data-reveal]"))
 
-    // Scroll-scrubbed entrance animation for section heading
-    if (headingElement) {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          end: "top 30%",
-          scrub: 1,
-          markers: false,
-        },
-      })
-
-      tl.fromTo(
-        headingElement,
-        {
-          opacity: 0,
-          y: 40,
-          letterSpacing: "0.1em",
-        },
-        {
-          opacity: 1,
-          y: 0,
-          letterSpacing: "0em",
-          duration: 1,
-        }
-      )
+    if (reduceMotion) {
+      gsap.set([heading, ...content].filter(Boolean), { opacity: 1, clearProps: "transform" })
+      return
     }
 
-    // Stagger content elements
-    if (contentElements.length > 0) {
-      const contentTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 70%",
-          end: "top 20%",
-          scrub: 1,
-          markers: false,
-        },
-      })
-
-      contentElements.forEach((element, index) => {
-        contentTl.fromTo(
-          element,
-          {
-            opacity: 0,
-            y: 30,
-            scale: 0.95,
-          },
+    const context = gsap.context(() => {
+      if (heading) {
+        gsap.fromTo(
+          heading,
+          { opacity: 0, y: 28 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.8,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 82%",
+              end: "top 48%",
+              scrub: 0.7,
+            },
           },
-          index * 0.1
         )
-      })
-    }
+      }
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill())
-    }
+      if (content.length > 0) {
+        gsap.fromTo(
+          content,
+          { opacity: 0, y: 22 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.06,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 76%",
+              end: "top 38%",
+              scrub: 0.7,
+            },
+          },
+        )
+      }
+    }, section)
+
+    return () => context.revert()
   }, [sectionId])
 
   return <div ref={sectionRef}>{children}</div>
