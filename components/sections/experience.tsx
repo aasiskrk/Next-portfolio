@@ -3,8 +3,9 @@
 import { useRef } from "react"
 import { Building, MapPin } from "lucide-react"
 import { motion, useScroll, useSpring } from "framer-motion"
-import { SectionHeading } from "@/components/reveal"
+import { SectionHeading, RevealItem } from "@/components/reveal"
 import { useInView } from "@/components/use-in-view"
+import { SplitText } from "@/components/split-text"
 
 interface ExperienceEntry {
   title: string
@@ -161,9 +162,15 @@ export function Experience() {
   return (
     <section id="experience" className="relative px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-4xl">
-        <div data-reveal>
-          <SectionHeading eyebrow="Journey" title="Experience" subtitle="My professional path so far." />
-        </div>
+        <RevealItem className="reveal" as="div">
+          <div className="mb-3">
+            <p className="mb-2 font-mono text-xs uppercase tracking-[0.4em] text-white/40">Journey</p>
+            <h2 className="mb-3 text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+              <SplitText text="Experience" as="span" by="word" trigger="inView" stagger={0.08} />
+            </h2>
+            <p className="text-base text-white/50 sm:text-lg">My professional path so far.</p>
+          </div>
+        </RevealItem>
 
         <div ref={railRef} className="relative mt-14">
           {/* Base rail track — centered on RAIL_CENTER */}

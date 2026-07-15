@@ -4,8 +4,6 @@ import { ArrowRight, Github, Linkedin, Mail, Instagram } from "lucide-react"
 import { motion } from "framer-motion"
 import { Magnetic } from "@/components/magnetic"
 import { SplitText } from "@/components/split-text"
-import { ProjectShowcaseCards } from "@/components/project-showcase-cards"
-import { ScrollScrubbedCards } from "@/components/scroll-scrubbed-cards"
 
 interface IntroductionProps {
   onViewProjects?: () => void
@@ -34,7 +32,7 @@ const socials = [
 export function Introduction({ onViewProjects, onContact }: IntroductionProps) {
   return (
     <section id="home" className="relative flex min-h-[100dvh] items-center px-5 pb-20 pt-28 sm:px-8">
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-2">
+      <div className="mx-auto w-full max-w-6xl">
         {/* Left — copy */}
         <div>
           <motion.div
@@ -111,17 +109,6 @@ export function Introduction({ onViewProjects, onContact }: IntroductionProps) {
           </motion.div>
         </div>
 
-        {/* Right — Project Showcase Cards with Scroll-Scrubbed Animation */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1], delay: 0.6 }}
-          className="hidden lg:flex items-center justify-center"
-        >
-          <ScrollScrubbedCards>
-            <ProjectShowcaseCards />
-          </ScrollScrubbedCards>
-        </motion.div>
       </div>
     </section>
   )

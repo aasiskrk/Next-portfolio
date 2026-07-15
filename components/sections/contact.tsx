@@ -4,7 +4,8 @@ import { useState } from "react"
 import { Mail, Github, Linkedin, Instagram, Send, MapPin, ArrowUpRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { SectionHeading, Reveal } from "@/components/reveal"
+import { SectionHeading, Reveal, RevealItem } from "@/components/reveal"
+import { SplitText } from "@/components/split-text"
 
 const EMAIL = "aasis.krk1@gmail.com"
 
@@ -37,9 +38,15 @@ export function Contact() {
   return (
     <section id="contact" className="relative px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-6xl">
-        <div data-reveal>
-          <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
-        </div>
+        <RevealItem className="reveal" as="div">
+          <div className="mb-3">
+            <p className="mb-2 font-mono text-xs uppercase tracking-[0.4em] text-white/40">Say Hello</p>
+            <h2 className="mb-3 text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+              <SplitText text="Get In Touch" as="span" by="word" trigger="inView" stagger={0.08} />
+            </h2>
+            <p className="text-base text-white/50 sm:text-lg">Let&apos;s build something together.</p>
+          </div>
+        </RevealItem>
 
         <Reveal className="mt-4 flex items-center justify-center gap-2 text-white/40">
           <MapPin className="h-4 w-4" />
