@@ -112,7 +112,7 @@ export function Languages() {
         </div>
 
         {/* Two-Row Marquee */}
-        <div className="space-y-6" data-reveal>
+        <div className="space-y-6 overflow-hidden" data-reveal>
           {/* Row 1 - Scrolling Left */}
           <div className="marquee-container relative w-full overflow-hidden">
             <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-black to-transparent" />

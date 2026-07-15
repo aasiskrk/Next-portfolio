@@ -56,8 +56,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark bg-background ${geistSans.variable} ${geistMono.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable}`}>
+      <body className="font-sans antialiased overflow-x-hidden">
         <SmoothScroll />
         <CustomCursor />
         <div className="grain-overlay" aria-hidden="true" />

@@ -37,7 +37,9 @@ export function Contact() {
   return (
     <section id="contact" className="relative px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
+        <div data-reveal>
+          <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
+        </div>
 
         <Reveal className="mt-4 flex items-center justify-center gap-2 text-white/40">
           <MapPin className="h-4 w-4" />

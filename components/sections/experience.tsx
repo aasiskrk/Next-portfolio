@@ -161,7 +161,9 @@ export function Experience() {
   return (
     <section id="experience" className="relative px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-4xl">
-        <SectionHeading eyebrow="Journey" title="Experience" subtitle="My professional path so far." />
+        <div data-reveal>
+          <SectionHeading eyebrow="Journey" title="Experience" subtitle="My professional path so far." />
+        </div>
 
         <div ref={railRef} className="relative mt-14">
           {/* Base rail track — centered on RAIL_CENTER */}
