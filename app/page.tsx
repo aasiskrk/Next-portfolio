@@ -26,6 +26,7 @@ interface WindowWithLenis extends Window {
 export default function Portfolio() {
   const [loading, setLoading] = useState(true)
   const [activeId, setActiveId] = useState("home")
+  const completeLoading = useCallback(() => setLoading(false), [])
 
   const navigate = useCallback((id: string) => {
     const el = document.getElementById(id)
@@ -72,7 +73,7 @@ export default function Portfolio() {
 
   return (
     <>
-      {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+      {loading && <LoadingScreen onComplete={completeLoading} />}
 
       <Navigation sections={sections} activeId={activeId} onNavigate={navigate} />
       <ScrollProgress sections={sections} activeId={activeId} onNavigate={navigate} />

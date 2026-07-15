@@ -88,8 +88,8 @@ function TimelineEntry({ exp }: { exp: ExperienceEntry }) {
         style={{ left: RAIL_CENTER, transform: "translateX(-50%)" }}
       >
         <span
-          className={`relative flex h-7 w-7 items-center justify-center rounded-full border border-white/40 bg-[#0c0c0f] transition-transform duration-500 ease-fluid ${
-            inView ? "scale-100" : "scale-0"
+          className={`relative flex h-7 w-7 items-center justify-center rounded-full border border-white/40 bg-[#0c0c0f] transition-transform duration-300 ease-fluid motion-reduce:transition-none ${
+            inView ? "scale-100" : "scale-95"
           }`}
         >
           <span className="h-2 w-2 rounded-full bg-white" />
