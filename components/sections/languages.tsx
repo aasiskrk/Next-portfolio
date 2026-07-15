@@ -1,6 +1,7 @@
 "use client"
 
 import type { IconType } from "react-icons"
+import { useEffect, useRef } from "react"
 import {
   SiFlutter,
   SiDart,
@@ -19,7 +20,7 @@ import {
   SiLinux,
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
-import { SectionHeading, StaggerGroup, RevealItem } from "@/components/reveal"
+import { SectionHeading } from "@/components/reveal"
 
 interface Skill {
   name: string
@@ -46,29 +47,71 @@ const skills: Skill[] = [
 ]
 
 export function Languages() {
-  return (
-    <section id="skills" className="relative px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-5xl">
-        <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
+  const marqueeRef = useRef<HTMLDivElement>(null)
 
-        <StaggerGroup className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {skills.map(({ name, icon: Icon }, i) => (
-            <RevealItem
-              key={name}
-              index={i}
-              step={0.05}
-              className="glass-card-premium group flex flex-col items-center justify-center gap-4 rounded-[1.25rem] px-4 py-8"
-            >
-              <Icon
-                className="h-9 w-9 text-white/55 transition-all duration-500 ease-fluid group-hover:-translate-y-1 group-hover:text-white"
-                aria-hidden="true"
-              />
-              <span className="text-sm font-medium text-white/70 transition-colors duration-500 group-hover:text-white">
-                {name}
-              </span>
-            </RevealItem>
-          ))}
-        </StaggerGroup>
+  useEffect(() => {
+    const marquee = marqueeRef.current
+    if (!marquee) return
+
+    const style = document.createElement("style")
+    style.textContent = `
+      @keyframes scroll-left {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      
+      .marquee-track {
+        animation: scroll-left 40s linear infinite;
+      }
+      
+      .marquee-track:hover {
+        animation-play-state: paused;
+      }
+    `
+    document.head.appendChild(style)
+
+    return () => {
+      document.head.removeChild(style)
+    }
+  }, [])
+
+  return (
+    <section id="skills" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-5xl mb-16">
+        <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
+      </div>
+
+      {/* Marquee Container */}
+      <div className="relative w-full overflow-hidden">
+        {/* Left gradient fade */}
+        <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-black to-transparent" />
+        
+        {/* Right gradient fade */}
+        <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-20 bg-gradient-to-l from-black to-transparent" />
+
+        {/* Marquee content */}
+        <div ref={marqueeRef} className="flex w-max">
+          <div className="marquee-track flex gap-4">
+            {[...skills, ...skills].map(({ name, icon: Icon }, i) => (
+              <div
+                key={`${name}-${i}`}
+                className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group"
+              >
+                <Icon
+                  className="h-5 w-5 text-white/70 group-hover:text-white transition-colors duration-300"
+                  aria-hidden="true"
+                />
+                <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+                  {name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
