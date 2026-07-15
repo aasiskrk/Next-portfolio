@@ -13,13 +13,18 @@ export function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null)
   const [enabled, setEnabled] = useState(false)
 
+  // Enable only on precise-pointer devices. This runs first and toggles the
+  // divs into the tree; the animation effect below waits for `enabled` so the
+  // refs are guaranteed to exist before we touch them.
   useEffect(() => {
-    const fine = window.matchMedia("(pointer: fine)").matches
-    if (!fine) return
-    setEnabled(true)
+    if (window.matchMedia("(pointer: fine)").matches) setEnabled(true)
+  }, [])
 
-    const dot = dotRef.current!
-    const ring = ringRef.current!
+  useEffect(() => {
+    if (!enabled) return
+    const dot = dotRef.current
+    const ring = ringRef.current
+    if (!dot || !ring) return
 
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
     const ringPos = { x: mouse.x, y: mouse.y }
@@ -64,7 +69,7 @@ export function CustomCursor() {
       document.removeEventListener("pointerleave", onLeave)
       cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [enabled])
 
   if (!enabled) return null
 
