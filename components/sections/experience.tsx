@@ -5,6 +5,7 @@ import { Building, MapPin } from "lucide-react"
 import { motion, useScroll, useSpring } from "framer-motion"
 import { SectionHeading } from "@/components/reveal"
 import { useInView } from "@/components/use-in-view"
+import { PageTransitionWrapper } from "@/components/page-transition-wrapper"
 
 interface ExperienceEntry {
   title: string
@@ -159,11 +160,14 @@ export function Experience() {
   const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
 
   return (
-    <section id="experience" className="relative px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-4xl">
-        <SectionHeading eyebrow="Journey" title="Experience" subtitle="My professional path so far." />
+    <PageTransitionWrapper sectionId="experience" triggerLetter="E">
+      <section id="experience" className="relative px-5 py-24 sm:px-8 sm:py-32">
+        <div className="mx-auto max-w-4xl">
+          <div data-reveal>
+            <SectionHeading eyebrow="Journey" title="Experience" subtitle="My professional path so far." />
+          </div>
 
-        <div ref={railRef} className="relative mt-14">
+          <div ref={railRef} className="relative mt-14">
           {/* Base rail track — centered on RAIL_CENTER */}
           <span
             className="absolute top-2 bottom-2 w-px bg-white/10"
@@ -188,8 +192,9 @@ export function Experience() {
               <TimelineEntry key={exp.title} exp={exp} />
             ))}
           </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </PageTransitionWrapper>
   )
 }

@@ -5,6 +5,7 @@ import { Mail, Github, Linkedin, Instagram, Send, MapPin, ArrowUpRight } from "l
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { SectionHeading, Reveal } from "@/components/reveal"
+import { PageTransitionWrapper } from "@/components/page-transition-wrapper"
 
 const EMAIL = "aasis.krk1@gmail.com"
 
@@ -35,16 +36,19 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="relative px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
+    <PageTransitionWrapper sectionId="contact" triggerLetter="C">
+      <section id="contact" className="relative px-5 py-24 sm:px-8 sm:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div data-reveal>
+            <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
+          </div>
 
-        <Reveal className="mt-4 flex items-center justify-center gap-2 text-white/40">
-          <MapPin className="h-4 w-4" />
-          <span className="text-sm font-medium">Kathmandu, Nepal</span>
-        </Reveal>
+          <Reveal className="mt-4 flex items-center justify-center gap-2 text-white/40">
+            <MapPin className="h-4 w-4" />
+            <span className="text-sm font-medium">Kathmandu, Nepal</span>
+          </Reveal>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="mt-14 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           {/* Links */}
           <Reveal className="flex flex-col gap-3">
             {contactLinks.map((c) => (
@@ -114,8 +118,9 @@ export function Contact() {
               </button>
             </form>
           </Reveal>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </PageTransitionWrapper>
   )
 }

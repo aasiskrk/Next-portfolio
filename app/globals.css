@@ -48,6 +48,7 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   /* Hide the native cursor only on precise-pointer devices, where the custom
@@ -72,6 +73,7 @@
       radial-gradient(40% 40% at 100% 0%, rgba(255, 255, 255, 0.03), transparent 60%),
       radial-gradient(50% 50% at 0% 100%, rgba(255, 255, 255, 0.03), transparent 60%);
     background-attachment: fixed;
+    overflow-x: hidden;
   }
 
   ::selection {
