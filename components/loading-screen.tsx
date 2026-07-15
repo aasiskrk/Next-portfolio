@@ -79,25 +79,25 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       gsap.set(liquidRef.current, { y: startY })
 
       const counter = { v: 0 }
-      const RISE = 5.4 // slower fill so you watch the liquid climb
+      const RISE = 3.2 // faster fill for quicker load
       const tl = gsap.timeline({
-        delay: 0.5,
+        delay: 0.2,
         onComplete: () => {
           // Exit: the filled name and overlay scale up and dissolve, "growing"
           // the viewer into the homepage sitting underneath.
-          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.5 })
+          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.3 })
           const exit = gsap.timeline({
-            delay: 0.45,
+            delay: 0.2,
             onComplete: () => {
               document.body.style.overflow = prevOverflow
               onComplete()
             },
           })
           exit
-            .to(svgRef.current, { scale: 1.35, duration: 1.1, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
-            .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.4, ease: "power2.in" }, 0)
-            .to(progressRef.current, { opacity: 0, y: 12, duration: 0.4, ease: "power2.in" }, 0)
-            .to(rootRef.current, { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 0.3)
+            .to(svgRef.current, { scale: 1.35, duration: 0.8, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
+            .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.3, ease: "power2.in" }, 0)
+            .to(progressRef.current, { opacity: 0, y: 12, duration: 0.3, ease: "power2.in" }, 0)
+            .to(rootRef.current, { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 0.2)
         },
       })
 
@@ -126,7 +126,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#08080a] px-6"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#15110c] px-6"
       aria-label="Loading"
       role="status"
     >
@@ -179,8 +179,8 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             never flashes filled. */}
         <g clipPath="url(#name-clip)">
           <g ref={liquidRef} transform={`translate(0 ${VB_H - SURFACE_Y + 20})`}>
-            <path ref={wave2Ref} d={wavePath2} fill="rgba(245,245,245,0.45)" />
-            <path ref={waveRef} d={wavePath} fill="#f5f5f5" />
+            <path ref={wave2Ref} d={wavePath2} fill="rgba(237, 204, 190, 0.45)" />
+            <path ref={waveRef} d={wavePath} fill="#edccbe" />
           </g>
         </g>
       </svg>
