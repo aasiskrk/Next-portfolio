@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import gsap from "gsap"
-import ScrollTrigger from "gsap/ScrollTrigger"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -18,77 +18,77 @@ export function PageTransitionWrapper({
   triggerLetter = "P",
 }: PageTransitionWrapperProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const [showOverlay, setShowOverlay] = useState(false)
 
   useEffect(() => {
     const section = sectionRef.current
-    const overlay = overlayRef.current
+    if (!section) return
 
-    if (!section || !overlay) return
+    const headingElement = section.querySelector("h1, h2, h3")
+    const contentElements = section.querySelectorAll("[data-reveal]")
 
-    // Create scroll trigger for section entrance
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top center",
-      onEnter: () => {
-        // Zoom effect from letter to full view
-        gsap.fromTo(
-          overlay,
-          {
-            opacity: 1,
-            scale: 0.1,
-            borderRadius: "50%",
-          },
-          {
-            opacity: 0,
-            scale: 1,
-            borderRadius: "0%",
-            duration: 0.8,
-            ease: "power3.inOut",
-            onComplete: () => setShowOverlay(false),
-          }
-        )
+    // Scroll-scrubbed entrance animation for section heading
+    if (headingElement) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          end: "top 30%",
+          scrub: 1,
+          markers: false,
+        },
+      })
 
-        // Parallax effect on content
-        gsap.fromTo(
-          section.querySelectorAll("[data-transition]"),
+      tl.fromTo(
+        headingElement,
+        {
+          opacity: 0,
+          y: 40,
+          letterSpacing: "0.1em",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          letterSpacing: "0em",
+          duration: 1,
+        }
+      )
+    }
+
+    // Stagger content elements
+    if (contentElements.length > 0) {
+      const contentTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 70%",
+          end: "top 20%",
+          scrub: 1,
+          markers: false,
+        },
+      })
+
+      contentElements.forEach((element, index) => {
+        contentTl.fromTo(
+          element,
           {
             opacity: 0,
             y: 30,
+            scale: 0.95,
           },
           {
             opacity: 1,
             y: 0,
+            scale: 1,
             duration: 0.8,
-            stagger: 0.1,
-            ease: "power3.out",
-          }
+          },
+          index * 0.1
         )
-      },
-      once: true,
-    })
+      })
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill())
     }
-  }, [])
+  }, [sectionId])
 
-  return (
-    <div ref={sectionRef} className="relative">
-      {/* Zoom overlay */}
-      {showOverlay && (
-        <div
-          ref={overlayRef}
-          className="fixed inset-0 z-50 bg-black"
-          style={{
-            pointerEvents: "none",
-          }}
-        />
-      )}
-
-      {/* Children with transition markers */}
-      <div data-transition>{children}</div>
-    </div>
-  )
+  return <div ref={sectionRef}>{children}</div>
 }

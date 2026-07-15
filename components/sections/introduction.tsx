@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Magnetic } from "@/components/magnetic"
 import { SplitText } from "@/components/split-text"
 import { ProjectShowcaseCards } from "@/components/project-showcase-cards"
+import { ScrollScrubbedCards } from "@/components/scroll-scrubbed-cards"
 
 interface IntroductionProps {
   onViewProjects?: () => void
@@ -110,14 +111,16 @@ export function Introduction({ onViewProjects, onContact }: IntroductionProps) {
           </motion.div>
         </div>
 
-        {/* Right — Project Showcase Cards */}
+        {/* Right — Project Showcase Cards with Scroll-Scrubbed Animation */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1], delay: 0.6 }}
           className="hidden lg:flex items-center justify-center"
         >
-          <ProjectShowcaseCards />
+          <ScrollScrubbedCards>
+            <ProjectShowcaseCards />
+          </ScrollScrubbedCards>
         </motion.div>
       </div>
     </section>

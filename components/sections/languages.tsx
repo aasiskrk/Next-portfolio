@@ -1,7 +1,7 @@
 "use client"
 
 import type { IconType } from "react-icons"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import {
   SiFlutter,
   SiDart,
@@ -22,7 +22,6 @@ import {
 import { FaJava } from "react-icons/fa"
 import { SectionHeading } from "@/components/reveal"
 import { PageTransitionWrapper } from "@/components/page-transition-wrapper"
-import { SectionTransition } from "@/components/section-transition"
 
 interface Skill {
   name: string
@@ -106,46 +105,43 @@ export function Languages() {
   )
 
   return (
-    <>
-      <SectionTransition sectionId="skills" triggerText="Languages & Tools" />
-      <PageTransitionWrapper sectionId="skills" triggerLetter="S">
-        <section id="skills" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32">
-          <div className="mx-auto max-w-5xl mb-16">
-        <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
-      </div>
+    <PageTransitionWrapper sectionId="skills" triggerLetter="S">
+      <section id="skills" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32">
+        <div className="mx-auto max-w-5xl mb-16" data-reveal>
+          <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
+        </div>
 
-      {/* Two-Row Marquee */}
-      <div className="space-y-6">
-        {/* Row 1 - Scrolling Left */}
-        <div className="marquee-container relative w-full overflow-hidden">
-          <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-black to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-20 bg-gradient-to-l from-black to-transparent" />
-          
-          <div className="flex w-max">
-            <div className="marquee-track-left flex gap-4">
-              {[...firstRow, ...firstRow].map(({ name, icon: Icon }, i) => (
-                <SkillPill key={`row1-${name}-${i}`} name={name} icon={Icon} />
-              ))}
+        {/* Two-Row Marquee */}
+        <div className="space-y-6" data-reveal>
+          {/* Row 1 - Scrolling Left */}
+          <div className="marquee-container relative w-full overflow-hidden">
+            <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-black to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-20 bg-gradient-to-l from-black to-transparent" />
+
+            <div className="flex w-max">
+              <div className="marquee-track-left flex gap-4">
+                {[...firstRow, ...firstRow].map(({ name, icon: Icon }, i) => (
+                  <SkillPill key={`row1-${name}-${i}`} name={name} icon={Icon} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Row 2 - Scrolling Right */}
+          <div className="marquee-container relative w-full overflow-hidden">
+            <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-black to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-20 bg-gradient-to-l from-black to-transparent" />
+
+            <div className="flex w-max">
+              <div className="marquee-track-right flex gap-4">
+                {[...secondRow, ...secondRow].map(({ name, icon: Icon }, i) => (
+                  <SkillPill key={`row2-${name}-${i}`} name={name} icon={Icon} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Row 2 - Scrolling Right */}
-        <div className="marquee-container relative w-full overflow-hidden">
-          <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-black to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-20 bg-gradient-to-l from-black to-transparent" />
-          
-          <div className="flex w-max">
-            <div className="marquee-track-right flex gap-4">
-              {[...secondRow, ...secondRow].map(({ name, icon: Icon }, i) => (
-                <SkillPill key={`row2-${name}-${i}`} name={name} icon={Icon} />
-              ))}
-            </div>
-          </div>
-          </div>
-        </div>
-        </section>
-      </PageTransitionWrapper>
-    </>
+      </section>
+    </PageTransitionWrapper>
   )
 }
