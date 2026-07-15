@@ -83,38 +83,21 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const tl = gsap.timeline({
         delay: 0.5,
         onComplete: () => {
-          // Cinematic exit: the camera zooms into the filled letters while the
-          // overlay scales up and dissolves, revealing the homepage behind with a
-          // parallax depth effect.
-          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.4 })
+          // Exit: the filled name and overlay scale up and dissolve, "growing"
+          // the viewer into the homepage sitting underneath.
+          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.5 })
           const exit = gsap.timeline({
-            delay: 0.4,
+            delay: 0.45,
             onComplete: () => {
               document.body.style.overflow = prevOverflow
               onComplete()
             },
           })
-          // SVG: zoom + tilt + 3D perspective depth
           exit
-            .to(
-              svgRef.current,
-              {
-                scale: 2.2,
-                rotationX: 15,
-                rotationZ: 8,
-                z: 200,
-                opacity: 0,
-                duration: 1.4,
-                ease: "power2.inOut",
-                transformOrigin: "50% 50%",
-              },
-              0,
-            )
-            // Eyebrow and progress fade and drift
-            .to(eyebrowRef.current, { opacity: 0, y: -20, duration: 0.5, ease: "power2.in" }, 0)
-            .to(progressRef.current, { opacity: 0, y: 16, duration: 0.5, ease: "power2.in" }, 0)
-            // Overlay background dims and scales up (reveals homepage behind)
-            .to(rootRef.current, { opacity: 0, scale: 1.15, duration: 1.2, ease: "power2.inOut" }, 0.2)
+            .to(svgRef.current, { scale: 1.35, duration: 1.1, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
+            .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.4, ease: "power2.in" }, 0)
+            .to(progressRef.current, { opacity: 0, y: 12, duration: 0.4, ease: "power2.in" }, 0)
+            .to(rootRef.current, { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 0.3)
         },
       })
 

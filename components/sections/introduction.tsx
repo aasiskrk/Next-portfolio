@@ -2,9 +2,9 @@
 
 import { ArrowRight, Github, Linkedin, Mail, Instagram } from "lucide-react"
 import { motion } from "framer-motion"
+import { LiquidImage } from "@/components/liquid-image"
 import { Magnetic } from "@/components/magnetic"
 import { SplitText } from "@/components/split-text"
-import { LiquidBlob } from "@/components/liquid-blob"
 
 interface IntroductionProps {
   onViewProjects?: () => void
@@ -110,15 +110,18 @@ export function Introduction({ onViewProjects, onContact }: IntroductionProps) {
           </motion.div>
         </div>
 
-        {/* Right — magnetic liquid blob */}
+        {/* Right — portrait with liquid hover */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.88, filter: "blur(16px)" }}
+          initial={{ opacity: 0, scale: 0.94, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.4, ease: EASE, delay: 0.5 }}
+          transition={{ duration: 1.3, ease: EASE, delay: 0.4 }}
           className="order-1 mx-auto w-full max-w-sm lg:order-2 lg:max-w-md"
         >
-          <div className="relative flex aspect-square items-center justify-center rounded-[2rem] bg-gradient-to-b from-white/5 to-white/[0.02] p-4 backdrop-blur-sm">
-            <LiquidBlob />
+          <div className="glass-card-premium rounded-[2rem] p-2">
+            <div className="glass-inner-premium relative aspect-[4/5] overflow-hidden rounded-[calc(2rem-0.5rem)]">
+              <LiquidImage src="/images/me1.jpg" alt="Portrait of Aashista Karki" className="absolute inset-0" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
+            </div>
           </div>
         </motion.div>
       </div>
