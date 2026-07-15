@@ -21,6 +21,8 @@ import {
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
 import { SectionHeading } from "@/components/reveal"
+import { PageTransitionWrapper } from "@/components/page-transition-wrapper"
+import { SectionTransition } from "@/components/section-transition"
 
 interface Skill {
   name: string
@@ -104,8 +106,11 @@ export function Languages() {
   )
 
   return (
-    <section id="skills" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-5xl mb-16">
+    <>
+      <SectionTransition sectionId="skills" triggerText="Languages & Tools" />
+      <PageTransitionWrapper sectionId="skills" triggerLetter="S">
+        <section id="skills" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32">
+          <div className="mx-auto max-w-5xl mb-16">
         <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
       </div>
 
@@ -137,8 +142,10 @@ export function Languages() {
               ))}
             </div>
           </div>
+          </div>
         </div>
-      </div>
-    </section>
+        </section>
+      </PageTransitionWrapper>
+    </>
   )
 }

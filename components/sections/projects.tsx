@@ -2,6 +2,8 @@
 
 import { ArrowUpRight, Github } from "lucide-react"
 import { SectionHeading, StaggerGroup, RevealItem } from "@/components/reveal"
+import { PageTransitionWrapper } from "@/components/page-transition-wrapper"
+import { SectionTransition } from "@/components/section-transition"
 
 interface Project {
   title: string
@@ -89,17 +91,20 @@ const projects: Project[] = [
 
 export function Projects() {
   return (
-    <section id="projects" className="relative px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading
-          eyebrow="Selected Work"
-          title="Featured Projects"
-          subtitle="Apps I've shipped and things I've built."
-        />
+    <>
+      <SectionTransition sectionId="projects" triggerText="Featured Projects" />
+      <PageTransitionWrapper sectionId="projects" triggerLetter="P">
+        <section id="projects" className="relative px-5 py-24 sm:px-8 sm:py-32">
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading
+              eyebrow="Selected Work"
+              title="Featured Projects"
+              subtitle="Apps I've shipped and things I've built."
+            />
 
-        <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-2">
-          {projects.map((project, i) => (
-            <RevealItem
+            <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-2">
+              {projects.map((project, i) => (
+                <RevealItem
                 key={project.title}
                 as="article"
                 index={i}
@@ -166,8 +171,10 @@ export function Projects() {
             <Github className="h-4 w-4" />
             View More on GitHub
           </a>
-        </div>
-      </div>
-    </section>
+            </div>
+          </div>
+        </section>
+      </PageTransitionWrapper>
+    </>
   )
 }
