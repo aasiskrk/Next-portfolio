@@ -168,30 +168,30 @@ export function Experience() {
           </div>
 
           <div ref={railRef} className="relative mt-14">
-          {/* Base rail track — centered on RAIL_CENTER */}
-          <span
-            className="absolute top-2 bottom-2 w-px bg-white/10"
-            style={{ left: RAIL_CENTER, transform: "translateX(-50%)" }}
-            aria-hidden="true"
-          />
-          {/* Scroll-scrubbed fill: static wrapper positions it; inner motion span
-              only scales vertically, so it can't drift off the rail. */}
-          <span
-            className="absolute top-2 w-px overflow-hidden"
-            style={{ left: RAIL_CENTER, bottom: 8, transform: "translateX(-50%)" }}
-            aria-hidden="true"
-          >
-            <motion.span
-              className="block h-full w-full origin-top bg-gradient-to-b from-white via-white/70 to-white/20"
-              style={{ scaleY: fill }}
+            {/* Base rail track — centered on RAIL_CENTER */}
+            <span
+              className="absolute top-2 bottom-2 w-px bg-white/10"
+              style={{ left: RAIL_CENTER, transform: "translateX(-50%)" }}
+              aria-hidden="true"
             />
-          </span>
+            {/* Scroll-scrubbed fill: static wrapper positions it; inner motion span
+                only scales vertically, so it can't drift off the rail. */}
+            <span
+              className="absolute top-2 w-px overflow-hidden"
+              style={{ left: RAIL_CENTER, bottom: 8, transform: "translateX(-50%)" }}
+              aria-hidden="true"
+            >
+              <motion.span
+                className="block h-full w-full origin-top bg-gradient-to-b from-white via-white/70 to-white/20"
+                style={{ scaleY: fill }}
+              />
+            </span>
 
-          <div className="space-y-6">
-            {experiences.map((exp) => (
-              <TimelineEntry key={exp.title} exp={exp} />
-            ))}
-          </div>
+            <div className="space-y-6">
+              {experiences.map((exp) => (
+                <TimelineEntry key={exp.title} exp={exp} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
