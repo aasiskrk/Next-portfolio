@@ -22,7 +22,6 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
-        headings: ["var(--font-headings)", "system-ui", "sans-serif"],
       },
       transitionTimingFunction: {
         fluid: "cubic-bezier(0.32, 0.72, 0, 1)",

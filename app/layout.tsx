@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Montserrat } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { CustomCursor } from '@/components/custom-cursor'
 import './globals.css'
 
 const geistSans = Geist({ subsets: ['latin'], variable: '--font-sans' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' })
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-headings' })
 
 const siteUrl = 'https://www.aashistakarki.com.np'
 const description =
@@ -57,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
         <SmoothScroll />
         <CustomCursor />
