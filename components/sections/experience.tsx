@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { Building, MapPin } from "lucide-react"
 import { motion, useScroll, useSpring } from "framer-motion"
-import { SectionHeading, RevealItem } from "@/components/reveal"
+import { Reveal } from "@/components/reveal"
 import { useInView } from "@/components/use-in-view"
 import { SplitText } from "@/components/split-text"
 
@@ -162,15 +162,19 @@ export function Experience() {
   return (
     <section id="experience" className="relative px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-4xl">
-        <RevealItem className="reveal" as="div">
-          <div className="mb-3">
-            <p className="mb-2 font-mono text-xs uppercase tracking-[0.4em] text-white/40">Journey</p>
-            <h2 className="mb-3 text-5xl font-semibold tracking-tight text-white sm:text-6xl">
-              <SplitText text="Experience" as="span" by="word" trigger="inView" stagger={0.08} />
-            </h2>
-            <p className="text-base text-white/50 sm:text-lg">My professional path so far.</p>
-          </div>
-        </RevealItem>
+        <Reveal>
+          <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.4em] text-white/40">Journey</p>
+        </Reveal>
+        <SplitText
+          as="h2"
+          text="Experience"
+          by="word"
+          stagger={0.08}
+          className="mb-4 text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl"
+        />
+        <Reveal delay={0.15}>
+          <p className="text-base text-white/50 sm:text-lg">My professional path so far.</p>
+        </Reveal>
 
         <div ref={railRef} className="relative mt-14">
           {/* Base rail track — centered on RAIL_CENTER */}
