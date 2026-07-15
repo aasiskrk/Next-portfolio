@@ -1,7 +1,7 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
 import type { IconType } from "react-icons"
+import { motion } from "framer-motion"
 import {
   SiFlutter,
   SiDart,
@@ -20,62 +20,61 @@ import {
   SiLinux,
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
+import { SectionHeading, staggerContainer, revealItem } from "@/components/reveal"
 
 interface Skill {
   name: string
-  icon?: IconType
-  color?: string
+  icon: IconType
 }
 
 const skills: Skill[] = [
-  { name: "Flutter", icon: SiFlutter, color: "text-blue-400" },
-  { name: "Dart", icon: SiDart, color: "text-cyan-400" },
-  { name: "Next.js", icon: SiNextdotjs, color: "text-white" },
-  { name: "Python", icon: SiPython, color: "text-yellow-400" },
-  { name: "Java", icon: FaJava, color: "text-red-400" },
-  { name: "JavaScript", icon: SiJavascript, color: "text-yellow-400" },
-  { name: "HTML", icon: SiHtml5, color: "text-orange-500" },
-  { name: "CSS", icon: SiCss3, color: "text-blue-500" },
-  { name: "Git", icon: SiGit, color: "text-orange-500" },
-  { name: "Docker", icon: SiDocker, color: "text-blue-400" },
-  { name: "Linux", icon: SiLinux, color: "text-gray-200" },
-  { name: "Figma", icon: SiFigma, color: "text-pink-400" },
+  { name: "Flutter", icon: SiFlutter },
+  { name: "Dart", icon: SiDart },
+  { name: "React", icon: SiReact },
+  { name: "Next.js", icon: SiNextdotjs },
+  { name: "Node.js", icon: SiNodedotjs },
+  { name: "Express", icon: SiExpress },
+  { name: "MongoDB", icon: SiMongodb },
+  { name: "JavaScript", icon: SiJavascript },
+  { name: "Python", icon: SiPython },
+  { name: "Java", icon: FaJava },
+  { name: "HTML", icon: SiHtml5 },
+  { name: "CSS", icon: SiCss3 },
+  { name: "Git", icon: SiGit },
+  { name: "Docker", icon: SiDocker },
+  { name: "Linux", icon: SiLinux },
+  { name: "Figma", icon: SiFigma },
 ]
 
 export function Languages() {
   return (
-    <section className="w-screen h-full flex items-center justify-center px-8 flex-shrink-0">
-      <div className="max-w-4xl mx-auto w-full">
-        <div className="text-center mb-12">
-          <h2 className="text-5xl font-black text-white mb-4 tracking-tight">Languages & Tools</h2>
-          <p className="text-lg text-gray-400 font-medium">The tech I build with</p>
-          <div className="h-1 w-24 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full mx-auto mt-4"></div>
-        </div>
-        <div className="flex justify-center">
-          <Card className="glass-card-premium rounded-3xl p-10 hover:scale-[1.02] transition-all duration-500 shadow-2xl cursor-crosshair w-full">
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-10">
-              {/* MERN Stack — grouped */}
-              <div className="flex w-28 flex-col items-center">
-                <div className="flex h-16 items-center space-x-1.5">
-                  <SiMongodb className="text-green-500" size={28} />
-                  <SiExpress className="text-gray-300" size={28} />
-                  <SiReact className="text-cyan-400" size={28} />
-                  <SiNodedotjs className="text-green-600" size={28} />
-                </div>
-                <span className="mt-3 text-white font-bold text-base tracking-wide">MERN Stack</span>
-              </div>
+    <section id="skills" className="relative px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-5xl">
+        <SectionHeading eyebrow="Toolkit" title="Languages & Tools" subtitle="The tech I build with." />
 
-              {skills.map(({ name, icon: Icon, color }) => (
-                <div key={name} className="flex w-28 flex-col items-center">
-                  <div className="flex h-16 items-center justify-center">
-                    {Icon && <Icon className={color} size={56} />}
-                  </div>
-                  <span className="mt-3 text-white font-bold text-base tracking-wide">{name}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-8% 0px" }}
+          className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4"
+        >
+          {skills.map(({ name, icon: Icon }) => (
+            <motion.div
+              key={name}
+              variants={revealItem}
+              className="glass-card-premium group flex flex-col items-center justify-center gap-4 rounded-[1.25rem] px-4 py-8"
+            >
+              <Icon
+                className="h-9 w-9 text-white/55 transition-all duration-500 ease-fluid group-hover:-translate-y-1 group-hover:text-white"
+                aria-hidden="true"
+              />
+              <span className="text-sm font-medium text-white/70 transition-colors duration-500 group-hover:text-white">
+                {name}
+              </span>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   )
