@@ -114,27 +114,28 @@ export function LiquidBlob() {
         style={{ filter: "drop-shadow(0 0 20px rgba(255, 255, 255, 0.08))" }}
       >
         <defs>
-          {/* Aqua/water gradient — vibrant cyan to teal */}
           <linearGradient id="blob-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: "#00d9ff", stopOpacity: 0.95 }} />
-            <stop offset="50%" style={{ stopColor: "#00b8d4", stopOpacity: 0.85 }} />
-            <stop offset="100%" style={{ stopColor: "#0088cc", stopOpacity: 0.75 }} />
+            <stop offset="0%" style={{ stopColor: "rgba(255,255,255,0.6)", stopOpacity: 1 }} />
+            <stop offset="50%" style={{ stopColor: "rgba(255,255,255,0.3)", stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: "rgba(255,255,255,0.2)", stopOpacity: 1 }} />
           </linearGradient>
-          {/* Radial glow for depth */}
-          <radialGradient id="blob-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" style={{ stopColor: "#00ffd9", stopOpacity: 0.3 }} />
-            <stop offset="100%" style={{ stopColor: "#0088cc", stopOpacity: 0 }} />
-          </radialGradient>
           <filter id="blob-blur" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
           </filter>
         </defs>
         {/* Glow backdrop layer */}
-        <circle cx="300" cy="200" r="200" fill="url(#blob-glow)" filter="url(#blob-blur)" />
-        {/* Main blob path — vibrant aqua */}
-        <path ref={blobPathRef} d={basePath} fill="url(#blob-gradient)" opacity="0.9" />
-        {/* Inner highlight for wet/glossy effect */}
-        <ellipse cx="280" cy="150" rx="80" ry="60" fill="rgba(255,255,255,0.25)" opacity="0.6" style={{ mixBlendMode: "screen" }} />
+        <circle cx="300" cy="200" r="180" fill="rgba(255,255,255,0.05)" filter="url(#blob-blur)" />
+        {/* Main blob path */}
+        <path ref={blobPathRef} d={basePath} fill="url(#blob-gradient)" opacity="0.8" />
+        {/* Highlight edge for depth */}
+        <path
+          d={basePath}
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          strokeWidth="1.5"
+          opacity="0.6"
+          style={{ mixBlendMode: "screen" }}
+        />
       </svg>
     </div>
   )
