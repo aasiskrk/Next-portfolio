@@ -48,6 +48,11 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    perspective: 1200px;
+  }
+
+  body {
+    perspective-origin: 50% 50%;
   }
 
   /* Hide the native cursor only on precise-pointer devices, where the custom
