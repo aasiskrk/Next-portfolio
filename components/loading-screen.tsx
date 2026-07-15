@@ -167,7 +167,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
               fontSize="190"
               fontWeight={800}
               letterSpacing="-6"
-              style={{ fontFamily: "var(--font-sans)" }}
+              style={{ fontFamily: '"IBM Plex Sans", sans-serif' }}
             >
               {NAME}
             </text>
@@ -187,7 +187,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           stroke="rgba(255,255,255,0.9)"
           strokeWidth="1.4"
           strokeOpacity={1}
-          style={{ fontFamily: "var(--font-sans)" }}
+          style={{ fontFamily: '"IBM Plex Sans", sans-serif' }}
         >
           {NAME}
         </text>
