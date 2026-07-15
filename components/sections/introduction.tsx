@@ -4,6 +4,8 @@ import { ArrowRight, Github, Linkedin, Mail, Instagram } from "lucide-react"
 import { motion } from "framer-motion"
 import { Magnetic } from "@/components/magnetic"
 import { SplitText } from "@/components/split-text"
+import { ScrollytellingText } from "@/components/scrollytelling-text"
+import { LiquidRippleTransition } from "@/components/liquid-ripple-transition"
 
 interface IntroductionProps {
   onViewProjects?: () => void
@@ -108,9 +110,14 @@ export function Introduction({ onViewProjects, onContact }: IntroductionProps) {
             </motion.div>
           </motion.div>
         </div>
-
-
       </div>
+
+      {/* Scrollytelling tagline - appears lower on page */}
+      <div className="absolute bottom-20 left-5 right-5 sm:left-8 sm:right-8">
+        <ScrollytellingText text="MOMENTS THAT MATTER" className="text-white/80" />
+      </div>
+
+      <LiquidRippleTransition />
     </section>
   )
 }
