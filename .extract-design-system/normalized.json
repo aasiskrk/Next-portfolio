@@ -1,0 +1,39 @@
+{
+  "source": {
+    "url": "https://www.houseofhoney.com/",
+    "extractedAt": "2026-07-15T18:00:55.809Z",
+    "extractor": "dembrandt"
+  },
+  "colors": {
+    "primary": "rgb(51, 25, 23)",
+    "secondary": "rgb(237, 204, 190)",
+    "palette": [
+      "rgb(237, 204, 190)",
+      "rgb(51, 25, 23)"
+    ],
+    "cssVariables": {}
+  },
+  "typography": {
+    "headingFont": "canora",
+    "bodyFont": "canora"
+  },
+  "spacing": {
+    "scale": [
+      "8px",
+      "16px",
+      "24px",
+      "50px",
+      "72px",
+      "80px",
+      "102px",
+      "264px",
+      "584.016px"
+    ]
+  },
+  "radius": {
+    "scale": []
+  },
+  "shadows": {
+    "scale": []
+  }
+}
