@@ -31,6 +31,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const outlineRef = useRef<SVGTextElement>(null)
   const eyebrowRef = useRef<HTMLParagraphElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
+  const progressBarRef = useRef<HTMLDivElement>(null)
   const [percent, setPercent] = useState(0)
 
   // viewBox geometry
@@ -48,95 +49,100 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
 
-    // Safety timeout - always complete after 6 seconds max
-    const safetyTimeout = setTimeout(() => {
-      console.warn("[v0] Loading screen safety timeout triggered")
-      document.body.style.overflow = prevOverflow
-      onComplete()
-    }, 6000)
+    // Immediate animation start - no setTimeout delays
+    if (!liquidRef.current || !waveRef.current || !wave2Ref.current) {
+      console.warn("[v0] Loading screen refs not mounted immediately")
+      // Fallback: complete after 3 seconds
+      const fallbackTimer = setTimeout(() => {
+        document.body.style.overflow = prevOverflow
+        onComplete()
+      }, 3000)
+      return () => clearTimeout(fallbackTimer)
+    }
 
-    // Wait for refs to be mounted before starting animations
-    const timer = setTimeout(() => {
-      if (!liquidRef.current || !waveRef.current || !wave2Ref.current) {
-        console.warn("[v0] Loading screen refs not mounted, using fallback")
-        return
-      }
+    // Use DOM manipulation for progress bar to avoid React batching issues
+    const progressBar = progressBarRef.current
 
-      const ctx = gsap.context(() => {
-        // Continuous horizontal flow of the liquid surface
-        gsap.to(waveRef.current, {
-          x: -WAVE_W,
-          duration: 3.6,
-          ease: "none",
-          repeat: -1,
-        })
-        // Second layer drifts the other way for parallax depth
-        gsap.to(wave2Ref.current, {
-          x: WAVE_W * 1.35,
-          duration: 5.4,
-          ease: "none",
-          repeat: -1,
-        })
-        // Gentle vertical bob
-        gsap.to([waveRef.current, wave2Ref.current], {
-          y: "+=8",
-          duration: 1.8,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-        })
-
-        // Liquid starts below the letters, rises to overfill the top
-        const startY = VB_H - SURFACE_Y + 20
-        const endY = -(SURFACE_Y + 60)
-        gsap.set(liquidRef.current, { y: startY })
-
-        const counter = { v: 0 }
-        const RISE = 2.4 // even faster for better UX
-        const tl = gsap.timeline({
-          delay: 0.15,
+    const tl = gsap.timeline({
+      onComplete: () => {
+        console.log("[v0] Loading animation complete, starting exit")
+        // Exit: the filled name and overlay scale up and dissolve
+        gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.3 })
+        
+        const exit = gsap.timeline({
           onComplete: () => {
-            // Exit animation
-            gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.3 })
-            const exit = gsap.timeline({
-              delay: 0.15,
-              onComplete: () => {
-                document.body.style.overflow = prevOverflow
-                onComplete()
-              },
-            })
-            exit
-              .to(svgRef.current, { scale: 1.35, duration: 0.7, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
-              .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.3, ease: "power2.in" }, 0)
-              .to(progressRef.current, { opacity: 0, y: 12, duration: 0.3, ease: "power2.in" }, 0)
-              .to(rootRef.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 0.15)
+            console.log("[v0] Exit animation complete, calling onComplete")
+            document.body.style.overflow = prevOverflow
+            onComplete()
           },
         })
+        
+        exit
+          .to(svgRef.current, { scale: 1.35, duration: 0.6, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
+          .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.25, ease: "power2.in" }, 0)
+          .to(progressRef.current, { opacity: 0, y: 12, duration: 0.25, ease: "power2.in" }, 0)
+          .to(rootRef.current, { opacity: 0, duration: 0.4, ease: "power2.inOut" }, 0.1)
+      },
+    })
 
-        tl.to(liquidRef.current, {
-          y: endY,
-          duration: RISE,
-          ease: "power1.inOut",
-        }).to(
-          counter,
-          {
-            v: 100,
-            duration: RISE,
-            ease: "power1.inOut",
-            onUpdate: () => setPercent(Math.round(counter.v)),
-          },
-          "<",
-        )
-      }, rootRef)
+    // Wave animations - infinite loop in background
+    gsap.to(waveRef.current, {
+      x: -WAVE_W,
+      duration: 3.6,
+      ease: "none",
+      repeat: -1,
+    })
 
-      return () => {
-        ctx.revert()
-      }
-    }, 50)
+    gsap.to(wave2Ref.current, {
+      x: WAVE_W * 1.35,
+      duration: 5.4,
+      ease: "none",
+      repeat: -1,
+    })
+
+    gsap.to([waveRef.current, wave2Ref.current], {
+      y: "+=8",
+      duration: 1.8,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+    })
+
+    // Main loading sequence
+    const startY = VB_H - SURFACE_Y + 20
+    const endY = -(SURFACE_Y + 60)
+    gsap.set(liquidRef.current, { y: startY })
+
+    const RISE_DURATION = 2.0 // 2 second fill
+
+    tl.to(
+      liquidRef.current,
+      {
+        y: endY,
+        duration: RISE_DURATION,
+        ease: "power1.inOut",
+      },
+      0
+    ).to(
+      {},
+      {
+        duration: RISE_DURATION,
+        ease: "power1.inOut",
+        onUpdate: function() {
+          const progress = Math.round(this.progress() * 100)
+          setPercent(progress)
+          // Also update DOM directly for faster visual feedback
+          if (progressBar) {
+            progressBar.style.width = `${progress}%`
+          }
+        },
+      },
+      0
+    )
 
     return () => {
-      clearTimeout(timer)
-      clearTimeout(safetyTimeout)
+      tl.kill()
+      gsap.killTweensOf([waveRef.current, wave2Ref.current, liquidRef.current])
       document.body.style.overflow = prevOverflow
     }
   }, [onComplete])
@@ -206,7 +212,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       {/* Progress line + percent */}
       <div ref={progressRef} className="mt-10 flex w-full max-w-xs items-center gap-4">
         <div className="h-px flex-1 overflow-hidden bg-white/10">
-          <div className="h-full bg-white/80 transition-none" style={{ width: `${percent}%` }} />
+          <div ref={progressBarRef} className="h-full bg-white/80 transition-none" style={{ width: `${percent}%` }} />
         </div>
         <span className="w-10 text-right font-mono text-xs tabular-nums text-white/50">{percent}</span>
       </div>
