@@ -48,77 +48,95 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
 
-    const ctx = gsap.context(() => {
-      // Continuous horizontal flow of the liquid surface — slow, so the motion
-      // of the fluid is clearly visible as it fills.
-      gsap.to(waveRef.current, {
-        x: -WAVE_W,
-        duration: 3.6,
-        ease: "none",
-        repeat: -1,
-      })
-      // Second layer drifts the other way, slower, for parallax depth.
-      gsap.to(wave2Ref.current, {
-        x: WAVE_W * 1.35,
-        duration: 5.4,
-        ease: "none",
-        repeat: -1,
-      })
-      // Gentle vertical bob so the surface breathes.
-      gsap.to([waveRef.current, wave2Ref.current], {
-        y: "+=8",
-        duration: 1.8,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-      })
+    // Safety timeout - always complete after 6 seconds max
+    const safetyTimeout = setTimeout(() => {
+      console.warn("[v0] Loading screen safety timeout triggered")
+      document.body.style.overflow = prevOverflow
+      onComplete()
+    }, 6000)
 
-      // Liquid starts below the letters, rises to overfill the top
-      const startY = VB_H - SURFACE_Y + 20 // fully below
-      const endY = -(SURFACE_Y + 60) // fully covered
-      gsap.set(liquidRef.current, { y: startY })
+    // Wait for refs to be mounted before starting animations
+    const timer = setTimeout(() => {
+      if (!liquidRef.current || !waveRef.current || !wave2Ref.current) {
+        console.warn("[v0] Loading screen refs not mounted, using fallback")
+        return
+      }
 
-      const counter = { v: 0 }
-      const RISE = 3.2 // faster fill for quicker load
-      const tl = gsap.timeline({
-        delay: 0.2,
-        onComplete: () => {
-          // Exit: the filled name and overlay scale up and dissolve, "growing"
-          // the viewer into the homepage sitting underneath.
-          gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.3 })
-          const exit = gsap.timeline({
-            delay: 0.2,
-            onComplete: () => {
-              document.body.style.overflow = prevOverflow
-              onComplete()
-            },
-          })
-          exit
-            .to(svgRef.current, { scale: 1.35, duration: 0.8, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
-            .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.3, ease: "power2.in" }, 0)
-            .to(progressRef.current, { opacity: 0, y: 12, duration: 0.3, ease: "power2.in" }, 0)
-            .to(rootRef.current, { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 0.2)
-        },
-      })
+      const ctx = gsap.context(() => {
+        // Continuous horizontal flow of the liquid surface
+        gsap.to(waveRef.current, {
+          x: -WAVE_W,
+          duration: 3.6,
+          ease: "none",
+          repeat: -1,
+        })
+        // Second layer drifts the other way for parallax depth
+        gsap.to(wave2Ref.current, {
+          x: WAVE_W * 1.35,
+          duration: 5.4,
+          ease: "none",
+          repeat: -1,
+        })
+        // Gentle vertical bob
+        gsap.to([waveRef.current, wave2Ref.current], {
+          y: "+=8",
+          duration: 1.8,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        })
 
-      tl.to(liquidRef.current, {
-        y: endY,
-        duration: RISE,
-        ease: "power1.inOut",
-      }).to(
-        counter,
-        {
-          v: 100,
+        // Liquid starts below the letters, rises to overfill the top
+        const startY = VB_H - SURFACE_Y + 20
+        const endY = -(SURFACE_Y + 60)
+        gsap.set(liquidRef.current, { y: startY })
+
+        const counter = { v: 0 }
+        const RISE = 2.4 // even faster for better UX
+        const tl = gsap.timeline({
+          delay: 0.15,
+          onComplete: () => {
+            // Exit animation
+            gsap.to(outlineRef.current, { attr: { "stroke-opacity": 0 }, duration: 0.3 })
+            const exit = gsap.timeline({
+              delay: 0.15,
+              onComplete: () => {
+                document.body.style.overflow = prevOverflow
+                onComplete()
+              },
+            })
+            exit
+              .to(svgRef.current, { scale: 1.35, duration: 0.7, ease: "power2.inOut", transformOrigin: "50% 60%" }, 0)
+              .to(eyebrowRef.current, { opacity: 0, y: -12, duration: 0.3, ease: "power2.in" }, 0)
+              .to(progressRef.current, { opacity: 0, y: 12, duration: 0.3, ease: "power2.in" }, 0)
+              .to(rootRef.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 0.15)
+          },
+        })
+
+        tl.to(liquidRef.current, {
+          y: endY,
           duration: RISE,
           ease: "power1.inOut",
-          onUpdate: () => setPercent(Math.round(counter.v)),
-        },
-        "<",
-      )
-    }, rootRef)
+        }).to(
+          counter,
+          {
+            v: 100,
+            duration: RISE,
+            ease: "power1.inOut",
+            onUpdate: () => setPercent(Math.round(counter.v)),
+          },
+          "<",
+        )
+      }, rootRef)
+
+      return () => {
+        ctx.revert()
+      }
+    }, 50)
 
     return () => {
-      ctx.revert()
+      clearTimeout(timer)
+      clearTimeout(safetyTimeout)
       document.body.style.overflow = prevOverflow
     }
   }, [onComplete])
