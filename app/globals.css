@@ -3,43 +3,42 @@
 @tailwind utilities;
 
 /* ============================================================
-   Design tokens — monochrome, OLED dark
+   Design tokens — strict monochrome, near-black editorial
    ============================================================ */
 @layer base {
   :root {
-    /* Background: Warm beige/cream with rich dark brown accents */
-    --background: 25 28% 8%;
-    --foreground: 25 12% 92%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
 
-    --card: 25 20% 12%;
-    --card-foreground: 25 12% 92%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 25 20% 12%;
-    --popover-foreground: 25 12% 92%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 96%;
 
-    /* Primary: Warm cream/beige (House of Honey secondary) */
-    --primary: 25 48% 88%;
-    --primary-foreground: 25 28% 10%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 0 0% 6%;
 
-    /* Secondary: Deep warm brown (House of Honey primary) */
-    --secondary: 15 40% 20%;
-    --secondary-foreground: 25 12% 92%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 25 15% 30%;
-    --muted-foreground: 25 8% 65%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 62%;
 
-    /* Accent: Warm peach/terracotta for highlights */
-    --accent: 20 60% 70%;
-    --accent-foreground: 15 40% 15%;
+    --accent: 0 0% 16%;
+    --accent-foreground: 0 0% 96%;
 
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 25 20% 22%;
-    --input: 25 20% 20%;
-    --ring: 25 60% 80%;
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
+    --ring: 0 0% 80%;
 
     --radius: 1rem;
+
+    /* Single motion language: one curve, everywhere. */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -69,18 +68,12 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
-    /* Warm beige/cream background with organic glow — inspired by House of Honey */
-    background-color: #15110c;
-    background-image:
-      radial-gradient(60% 50% at 50% -10%, rgba(237, 204, 190, 0.08), transparent 70%),
-      radial-gradient(40% 40% at 100% 0%, rgba(237, 204, 190, 0.04), transparent 60%),
-      radial-gradient(50% 50% at 0% 100%, rgba(237, 204, 190, 0.04), transparent 60%);
-    background-attachment: fixed;
+    background-color: #0a0a0a;
   }
 
   ::selection {
-    background: rgba(255, 255, 255, 0.9);
-    color: #08080a;
+    background: #f5f5f5;
+    color: #0a0a0a;
   }
 
   /* Minimal, thin scrollbar */
@@ -101,7 +94,7 @@
 }
 
 /* ============================================================
-   Utilities — glass surfaces (monochrome), grain, helpers
+   Utilities — grain, glass nav, editorial links
    ============================================================ */
 @layer utilities {
   /* Fixed film-grain overlay */
@@ -110,205 +103,58 @@
     inset: 0;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.035;
+    opacity: 0.03;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* Floating glass navigation pill — warm tone */
-  .glass-nav-premium {
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    background: rgba(21, 17, 12, 0.65);
-    border: 1px solid rgba(237, 204, 190, 0.15);
-    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(237, 204, 190, 0.1);
+  /* Bottom navigation surface */
+  .glass-nav {
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    background: rgba(10, 10, 10, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.8);
   }
 
-  /* Primary glass card — warm organic feel */
-  .glass-card-premium {
-    background: rgba(237, 204, 190, 0.03);
-    border: 1px solid rgba(237, 204, 190, 0.12);
-    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(237, 204, 190, 0.08);
-    transition-property: transform, background-color, border-color, box-shadow;
-    transition-duration: 700ms;
-    transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-    will-change: transform;
+  /* Editorial text link: hairline slides in from the left on hover. */
+  .link-underline {
+    position: relative;
   }
-
-  .glass-card-premium:hover {
-    background: rgba(237, 204, 190, 0.06);
-    border-color: rgba(237, 204, 190, 0.22);
-    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(237, 204, 190, 0.12);
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.5s var(--ease);
   }
-
-  .glass-inner-premium {
-    background: rgba(237, 204, 190, 0.02);
-    border: 1px solid rgba(237, 204, 190, 0.1);
-    box-shadow: inset 0 1px 1px rgba(237, 204, 190, 0.08);
-  }
-
-  /* Primary CTA — warm beige island button */
-  .glass-button-primary {
-    background: rgba(237, 204, 190, 0.92);
-    border: 1px solid rgba(237, 204, 190, 0.6);
-    color: #15110c;
-    box-shadow: 0 8px 30px -8px rgba(237, 204, 190, 0.3);
-    transition: all 500ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .glass-button-primary:hover {
-    background: rgba(237, 204, 190, 0.98);
-    box-shadow: 0 12px 40px -8px rgba(237, 204, 190, 0.5);
-  }
-
-  /* Secondary — hairline ghost button with warm tone */
-  .glass-button-secondary {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(237, 204, 190, 0.04);
-    border: 1px solid rgba(237, 204, 190, 0.2);
-    color: rgba(237, 204, 190, 0.95);
-    transition: all 500ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .glass-button-secondary:hover {
-    background: rgba(237, 204, 190, 0.1);
-    border-color: rgba(237, 204, 190, 0.4);
-  }
-
-  .glass-social {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(237, 204, 190, 0.03);
-    border: 1px solid rgba(237, 204, 190, 0.15);
-    transition: all 500ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .glass-social:hover {
-    background: rgba(237, 204, 190, 0.08);
-    border-color: rgba(237, 204, 190, 0.3);
-  }
-
-  .glass-tag-premium {
-    background: rgba(237, 204, 190, 0.08);
-    border: 1px solid rgba(237, 204, 190, 0.15);
-  }
-
-  .glass-tag-small-premium {
-    background: rgba(237, 204, 190, 0.05);
-    border: 1px solid rgba(237, 204, 190, 0.12);
-  }
-
-  .glass-input-premium {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(237, 204, 190, 0.04);
-    border: 1px solid rgba(237, 204, 190, 0.15);
-    color: rgba(237, 204, 190, 0.95);
-    transition: all 400ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .glass-input-premium::placeholder {
-    color: rgba(237, 204, 190, 0.4);
-  }
-  .glass-input-premium:focus {
-    background: rgba(237, 204, 190, 0.08);
-    border-color: rgba(237, 204, 190, 0.35);
-    box-shadow: 0 0 0 3px rgba(237, 204, 190, 0.08);
-  }
-
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  .rounded-4xl {
-    border-radius: 2rem;
-  }
-
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .text-outline {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
-    color: transparent;
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left center;
   }
 }
 
 /* ============================================================
    Keyframes / animations
    ============================================================ */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
+
+/* Scroll cue: a short segment travels down a hairline track. */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  100% {
+    transform: translateY(300%);
   }
 }
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.8s cubic-bezier(0.32, 0.72, 0, 1) both;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 40s linear infinite;
-}
-
-/* Organic floating effect — inspired by House of Honey */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Gentle scale pulse */
-@keyframes scalePulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-}
-
-.animate-scale-pulse {
-  animation: scalePulse 3s cubic-bezier(0.32, 0.72, 0, 1) infinite;
-}
-
-/* Smooth glow fade */
-@keyframes glowFade {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-.animate-glow-fade {
-  animation: glowFade 4s ease-in-out infinite;
+.animate-scroll-cue {
+  animation: scroll-cue 2.2s var(--ease) infinite;
 }
 
 /* Focus states */
@@ -316,8 +162,8 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid rgba(237, 204, 190, 0.6);
-  outline-offset: 2px;
+  outline: 1px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 3px;
 }
 
 /* ============================================================
@@ -328,22 +174,19 @@ textarea:focus-visible {
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  filter: blur(8px);
   transition:
-    opacity 0.9s cubic-bezier(0.32, 0.72, 0, 1),
-    transform 0.9s cubic-bezier(0.32, 0.72, 0, 1),
-    filter 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
   transition-delay: var(--reveal-delay, 0s);
   will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
 }
 
 /* Split-text kinetic reveal: each unit sits in an overflow-hidden mask and
-   slides up from below with a soft blur, staggered per index. */
+   slides up from below, staggered per index. */
 .split-line {
   display: inline;
 }
@@ -356,18 +199,15 @@ textarea:focus-visible {
   display: inline-block;
   transform: translateY(110%);
   opacity: 0;
-  filter: blur(6px);
   transition:
-    transform 0.9s cubic-bezier(0.32, 0.72, 0, 1),
-    opacity 0.9s cubic-bezier(0.32, 0.72, 0, 1),
-    filter 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+    transform 0.9s var(--ease),
+    opacity 0.9s var(--ease);
   transition-delay: var(--unit-delay, 0s);
   will-change: transform;
 }
 .split.is-visible .split-unit {
   transform: translateY(0);
   opacity: 1;
-  filter: blur(0);
 }
 
 /* Reduced motion */
@@ -386,6 +226,5 @@ textarea:focus-visible {
   .split-unit {
     opacity: 1 !important;
     transform: none !important;
-    filter: none !important;
   }
 }

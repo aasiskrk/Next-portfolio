@@ -14,6 +14,8 @@ interface SplitTextProps {
   stagger?: number
   /** Animate on scroll into view (default) or immediately on mount. */
   trigger?: "inView" | "mount"
+  /** When provided, visibility is controlled externally (overrides trigger). */
+  active?: boolean
   duration?: number
 }
 
@@ -32,6 +34,7 @@ export function SplitText({
   delay = 0,
   stagger = 0.05,
   trigger = "inView",
+  active,
   duration = 0.9,
 }: SplitTextProps) {
   const Tag = as as ElementType
@@ -46,7 +49,7 @@ export function SplitText({
     }
   }, [trigger])
 
-  const visible = trigger === "mount" ? mounted : inView
+  const visible = active !== undefined ? active : trigger === "mount" ? mounted : inView
 
   return (
     <Tag

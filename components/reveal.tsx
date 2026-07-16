@@ -69,37 +69,57 @@ export function RevealItem({
   )
 }
 
-/** A section heading block: eyebrow label + big title + optional subtitle. */
+/**
+ * Editorial section heading: a hairline rule, a mono eyebrow (with optional
+ * right-aligned meta), and a large title whose accent word is set in the
+ * serif italic display face.
+ */
 export function SectionHeading({
   eyebrow,
   title,
+  accent,
   subtitle,
-  align = "center",
+  meta,
 }: {
   eyebrow: string
   title: string
+  accent?: string
   subtitle?: string
-  align?: "center" | "left"
+  meta?: string
 }) {
   return (
-    <div className={align === "center" ? "text-center" : "text-left"}>
-      <Reveal>
-        <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.4em] text-white/40">{eyebrow}</p>
-      </Reveal>
-      <SplitText
-        as="h2"
-        text={title}
-        by="word"
-        stagger={0.08}
-        className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl"
-      />
+    <div className="border-t border-white/10 pt-6">
+      <div className="flex items-baseline justify-between gap-4">
+        <Reveal>
+          <p className="font-mono text-[11px] uppercase tracking-[0.4em] text-white/40">{eyebrow}</p>
+        </Reveal>
+        {meta && (
+          <Reveal delay={0.1}>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/30">{meta}</p>
+          </Reveal>
+        )}
+      </div>
+
+      <h2 className="mt-8 text-balance text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+        <SplitText as="span" text={title} by="word" stagger={0.07} />
+        {accent && (
+          <>
+            {" "}
+            <SplitText
+              as="span"
+              text={accent}
+              by="word"
+              stagger={0.07}
+              delay={0.15}
+              className="font-serif font-normal italic text-white/90"
+            />
+          </>
+        )}
+      </h2>
+
       {subtitle && (
-        <Reveal delay={0.15}>
-          <p
-            className={`mt-4 text-base text-white/50 sm:text-lg ${align === "center" ? "mx-auto max-w-xl" : "max-w-xl"}`}
-          >
-            {subtitle}
-          </p>
+        <Reveal delay={0.2}>
+          <p className="mt-5 max-w-xl text-base text-white/50 sm:text-lg">{subtitle}</p>
         </Reveal>
       )}
     </div>

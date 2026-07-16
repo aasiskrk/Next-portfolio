@@ -7,26 +7,32 @@ import { Languages } from "@/components/sections/languages"
 import { Experience } from "@/components/sections/experience"
 import { Contact } from "@/components/sections/contact"
 import { Navigation, type NavSection } from "@/components/navigation"
-import { ScrollProgress } from "@/components/section-indicator"
 import { LoadingScreen } from "@/components/loading-screen"
 import { SiteFooter } from "@/components/site-footer"
+import { BackgroundPinwheels } from "@/components/background-pinwheels"
 
-const sections: NavSection[] = [
-  { id: "home", label: "Home" },
-  { id: "projects", label: "Projects" },
+// Middle nav items — Home and Contact are rendered by the nav itself.
+const navSections: NavSection[] = [
+  { id: "projects", label: "Work" },
   { id: "skills", label: "Skills" },
   { id: "experience", label: "Experience" },
-  { id: "contact", label: "Contact" },
 ]
+
+const sectionIds = ["home", "projects", "skills", "experience", "contact"]
 
 interface WindowWithLenis extends Window {
   __lenis?: { scrollTo: (target: string | number | HTMLElement, opts?: Record<string, unknown>) => void }
 }
 
+type Phase = "loading" | "revealing" | "done"
+
 export default function Portfolio() {
-  const [loading, setLoading] = useState(true)
+  const [phase, setPhase] = useState<Phase>("loading")
   const [activeId, setActiveId] = useState("home")
-  const completeLoading = useCallback(() => setLoading(false), [])
+  const play = phase !== "loading"
+
+  const handleReveal = useCallback(() => setPhase("revealing"), [])
+  const handleLoaderDone = useCallback(() => setPhase("done"), [])
 
   const navigate = useCallback((id: string) => {
     const el = document.getElementById(id)
@@ -40,7 +46,7 @@ export default function Portfolio() {
   }, [])
 
   useEffect(() => {
-    if (loading) return
+    if (!play) return
 
     let raf = 0
     const compute = () => {
@@ -49,11 +55,11 @@ export default function Portfolio() {
       // last one whose top edge has crossed above that line. This is monotonic
       // with scroll position, so no section can ever be skipped.
       const line = window.innerHeight * 0.4
-      let current = sections[0].id
-      for (const s of sections) {
-        const el = document.getElementById(s.id)
+      let current = sectionIds[0]
+      for (const id of sectionIds) {
+        const el = document.getElementById(id)
         if (!el) continue
-        if (el.getBoundingClientRect().top - line <= 0) current = s.id
+        if (el.getBoundingClientRect().top - line <= 0) current = id
       }
       setActiveId(current)
     }
@@ -69,17 +75,22 @@ export default function Portfolio() {
       window.removeEventListener("resize", onScroll)
       if (raf) cancelAnimationFrame(raf)
     }
-  }, [loading])
+  }, [play])
 
   return (
     <>
-      {loading && <LoadingScreen onComplete={completeLoading} />}
+      {phase !== "done" && <LoadingScreen onReveal={handleReveal} onComplete={handleLoaderDone} />}
 
-      <Navigation sections={sections} activeId={activeId} onNavigate={navigate} />
-      <ScrollProgress sections={sections} activeId={activeId} onNavigate={navigate} />
+      <BackgroundPinwheels />
 
-      <main className="relative">
-        <Introduction onViewProjects={() => navigate("projects")} onContact={() => navigate("contact")} />
+      <Navigation sections={navSections} activeId={activeId} visible={play} onNavigate={navigate} />
+
+      <main className="relative z-10">
+        <Introduction
+          play={play}
+          onViewProjects={() => navigate("projects")}
+          onContact={() => navigate("contact")}
+        />
         <Projects />
         <Languages />
         <Experience />

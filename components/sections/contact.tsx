@@ -1,122 +1,81 @@
 "use client"
 
-import { useState } from "react"
-import { Mail, Github, Linkedin, Instagram, Send, MapPin, ArrowUpRight } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { useEffect, useState } from "react"
+import { ArrowUpRight } from "lucide-react"
 import { SectionHeading, Reveal } from "@/components/reveal"
 
 const EMAIL = "aasis.krk1@gmail.com"
 
-const contactLinks = [
-  { name: "Gmail", icon: Mail, href: "mailto:aasis.krk1@gmail.com", value: "aasis.krk1@gmail.com" },
-  { name: "GitHub", icon: Github, href: "https://github.com/aasiskrk", value: "github.com/aasiskrk" },
-  {
-    name: "LinkedIn",
-    icon: Linkedin,
-    href: "https://linkedin.com/in/aashista-karki-69420g",
-    value: "linkedin.com/in/aashista-karki-69420g",
-  },
-  { name: "Instagram", icon: Instagram, href: "https://instagram.com/aashista_krki", value: "@aashista_krki" },
+const socials = [
+  { label: "GitHub", href: "https://github.com/aasiskrk" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/aashista-karki-69420g" },
+  { label: "Instagram", href: "https://instagram.com/aashista_krki" },
 ]
 
+function KathmanduTime() {
+  const [time, setTime] = useState("")
+
+  useEffect(() => {
+    const formatter = new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Asia/Kathmandu",
+    })
+    const tick = () => setTime(formatter.format(new Date()))
+    tick()
+    const id = window.setInterval(tick, 30_000)
+    return () => window.clearInterval(id)
+  }, [])
+
+  return <>{time || "--:--"}</>
+}
+
 export function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const subject = form.subject || `Portfolio message from ${form.name || "someone"}`
-    const body = `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-  }
-
   return (
-    <section id="contact" className="relative px-5 py-24 sm:px-8 sm:py-32">
+    <section id="contact" className="relative px-5 py-28 sm:px-8 sm:py-40">
       <div className="mx-auto max-w-6xl">
-        <div data-reveal>
-          <SectionHeading eyebrow="Say Hello" title="Get In Touch" subtitle="Let's build something together." />
-        </div>
+        <SectionHeading
+          eyebrow="Contact"
+          title="Let's"
+          accent="talk."
+          subtitle="Open to freelance and full-time roles. If you have an idea worth building, say hello."
+        />
 
-        <Reveal className="mt-4 flex items-center justify-center gap-2 text-white/40">
-          <MapPin className="h-4 w-4" />
-          <span className="text-sm font-medium">Kathmandu, Nepal</span>
+        <Reveal delay={0.15}>
+          <a
+            href={`mailto:${EMAIL}`}
+            data-cursor-label="Say hi"
+            className="group mt-16 inline-flex flex-wrap items-baseline gap-x-4 gap-y-2"
+          >
+            <span className="link-underline break-all text-[clamp(1.5rem,4.5vw,3.5rem)] font-medium tracking-tight text-white">
+              {EMAIL}
+            </span>
+            <ArrowUpRight className="h-6 w-6 self-center text-white/40 transition-all duration-500 ease-fluid group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white sm:h-8 sm:w-8" />
+          </a>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          {/* Links */}
-          <Reveal className="flex flex-col gap-3">
-            {contactLinks.map((c) => (
-              <a
-                key={c.name}
-                href={c.href}
-                target={c.href.startsWith("http") ? "_blank" : undefined}
-                rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="glass-card-premium group flex items-center gap-4 rounded-[1.25rem] p-5"
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/5 text-white/70 transition-colors duration-500 group-hover:text-white">
-                  <c.icon className="h-5 w-5" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-semibold text-white">{c.name}</span>
-                  <span className="block truncate text-sm text-white/45">{c.value}</span>
-                </span>
-                <ArrowUpRight className="h-4 w-4 text-white/30 transition-all duration-500 ease-fluid group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
-              </a>
-            ))}
-          </Reveal>
-
-          {/* Form */}
-          <Reveal delay={0.1}>
-            <form onSubmit={handleSubmit} className="glass-card-premium flex flex-col gap-4 rounded-[1.5rem] p-7">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Input
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="Your name"
-                  className="glass-input-premium h-12 rounded-xl text-sm"
-                />
-                <Input
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                  placeholder="Your email"
-                  className="glass-input-premium h-12 rounded-xl text-sm"
-                />
-              </div>
-              <Input
-                name="subject"
-                value={form.subject}
-                onChange={handleChange}
-                placeholder="Subject"
-                className="glass-input-premium h-12 rounded-xl text-sm"
-              />
-              <Textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                required
-                placeholder="Your message"
-                rows={5}
-                className="glass-input-premium resize-none rounded-xl text-sm"
-              />
-              <button
-                type="submit"
-                className="glass-button-primary group flex items-center justify-center gap-2.5 rounded-full py-3.5 text-sm font-semibold"
-              >
-                <Send className="h-4 w-4 transition-transform duration-500 ease-fluid group-hover:translate-x-0.5" />
-                Send Message
-              </button>
-            </form>
-          </Reveal>
-        </div>
+        <Reveal delay={0.25}>
+          <div className="mt-24 flex flex-col gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <ul className="flex flex-wrap gap-7">
+              {socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor-label="Follow"
+                    className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-white/45 transition-colors duration-300 ease-fluid hover:text-white"
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/35">
+              Kathmandu, Nepal · <KathmanduTime /> GMT+5:45
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

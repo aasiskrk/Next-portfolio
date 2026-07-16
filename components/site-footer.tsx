@@ -1,44 +1,28 @@
 "use client"
 
-import { Github, Linkedin, Mail, Instagram } from "lucide-react"
-
-const socials = [
-  { icon: Github, href: "https://github.com/aasiskrk", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/aashista-karki-69420g", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:aasis.krk1@gmail.com", label: "Email" },
-  { icon: Instagram, href: "https://instagram.com/aashista_krki/", label: "Instagram" },
-]
+interface WindowWithLenis extends Window {
+  __lenis?: { scrollTo: (target: string | number | HTMLElement, opts?: Record<string, unknown>) => void }
+}
 
 export function SiteFooter() {
+  const backToTop = () => {
+    const lenis = (window as WindowWithLenis).__lenis
+    if (lenis) lenis.scrollTo(0, { duration: 1.4 })
+    else window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
-    <footer className="relative border-t border-white/5 px-5 py-12 sm:px-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
-        <div className="text-center sm:text-left">
-          <p className="text-lg font-semibold tracking-tight text-white">Aashista Karki</p>
-          <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.3em] text-white/35">
-            Full Stack &amp; Mobile Developer
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {socials.map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-              aria-label={label}
-              className="glass-social flex h-10 w-10 items-center justify-center rounded-full text-white/60 transition-transform duration-500 ease-fluid hover:-translate-y-0.5 hover:text-white"
-            >
-              <Icon className="h-4 w-4" />
-            </a>
-          ))}
-        </div>
+    <footer className="px-5 pb-32 pt-8 sm:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
+        <p>© {new Date().getFullYear()} Aashista Karki</p>
+        <button
+          onClick={backToTop}
+          data-cursor-label="Top"
+          className="link-underline transition-colors duration-300 ease-fluid hover:text-white"
+        >
+          Back to top ↑
+        </button>
       </div>
-
-      <p className="mx-auto mt-8 max-w-6xl text-center font-mono text-[11px] text-white/25 sm:text-left">
-        © {new Date().getFullYear()} Aashista Karki. Built with Next.js.
-      </p>
     </footer>
   )
 }

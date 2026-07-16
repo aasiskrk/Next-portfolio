@@ -21,10 +21,11 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       transitionTimingFunction: {
-        fluid: "cubic-bezier(0.32, 0.72, 0, 1)",
+        fluid: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       colors: {
         border: "hsl(var(--border))",

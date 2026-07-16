@@ -1,11 +1,17 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Fraunces } from 'next/font/google'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { CustomCursor } from '@/components/custom-cursor'
 import './globals.css'
 
 const geistSans = Geist({ subsets: ['latin'], variable: '--font-sans' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' })
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-serif',
+})
 
 const siteUrl = 'https://www.aashistakarki.com.np'
 const description =
@@ -46,7 +52,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#08080a',
+  themeColor: '#0a0a0a',
   colorScheme: 'dark',
 }
 
@@ -56,7 +62,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
+    >
       <body className="font-sans antialiased overflow-x-hidden">
         <SmoothScroll />
         <CustomCursor />

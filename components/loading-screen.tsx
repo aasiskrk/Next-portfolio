@@ -1,244 +1,141 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import gsap from "gsap"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
-const NAME = "Aashista"
-const LOAD_DURATION_MS = 1500
-const EXIT_DURATION_MS = 320
-const MAX_LOADER_MS = 2500
+/**
+ * Multilingual greeting sequence: "Hello" morphs through greetings in their
+ * native scripts inside a typographic mask (each word rises in as the previous
+ * one lifts out), then the whole screen lifts like a curtain to reveal the page.
+ */
+const GREETINGS = ["Hello", "नमस्ते", "こんにちは", "안녕하세요", "Bonjour", "Hallo", "مرحبًا"]
 
-function buildWave(width: number, waveWidth: number, amp: number, surfaceY: number, bottomY: number) {
-  const half = waveWidth / 2
-  const quarter = waveWidth / 4
-  let d = `M 0 ${surfaceY}`
-  const segments = Math.ceil(width / waveWidth) + 1
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const CURTAIN_EASE = [0.76, 0, 0.24, 1] as [number, number, number, number]
 
-  for (let i = 0; i < segments; i++) {
-    d += ` q ${quarter} ${-amp} ${half} 0 q ${quarter} ${amp} ${half} 0`
-  }
+const FIRST_HOLD_MS = 550
+const HOLD_MS = 320
+const LAST_HOLD_MS = 450
+const CURTAIN_MS = 850
+const SAFETY_MS = 6000
 
-  return `${d} L ${segments * waveWidth} ${bottomY} L 0 ${bottomY} Z`
+interface LoadingScreenProps {
+  /** Curtain starts lifting — begin the hero entrance. */
+  onReveal: () => void
+  /** Curtain fully gone — safe to unmount. */
+  onComplete: () => void
 }
 
-export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
-  const rootRef = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
-  const liquidRef = useRef<SVGGElement>(null)
-  const waveRef = useRef<SVGPathElement>(null)
-  const wave2Ref = useRef<SVGPathElement>(null)
-  const outlineRef = useRef<SVGTextElement>(null)
-  const eyebrowRef = useRef<HTMLParagraphElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
-  const progressBarRef = useRef<HTMLDivElement>(null)
-  const percentRef = useRef<HTMLSpanElement>(null)
+export function LoadingScreen({ onReveal, onComplete }: LoadingScreenProps) {
+  const [index, setIndex] = useState(0)
+  const [exiting, setExiting] = useState(false)
+  const reduceMotion = useReducedMotion()
+
+  const revealedRef = useRef(false)
   const completedRef = useRef(false)
-  const [percent, setPercent] = useState(0)
+  const onRevealRef = useRef(onReveal)
+  const onCompleteRef = useRef(onComplete)
+  onRevealRef.current = onReveal
+  onCompleteRef.current = onComplete
 
-  const viewBoxWidth = 1000
-  const viewBoxHeight = 300
-  const waveWidth = 460
-  const amplitude = 30
-  const surfaceY = 46
-  const bottomY = 460
-  const wavePath = buildWave(viewBoxWidth * 2, waveWidth, amplitude, surfaceY, bottomY)
-  const wavePath2 = buildWave(viewBoxWidth * 2, waveWidth * 1.35, amplitude * 0.6, surfaceY + 6, bottomY)
+  const beginExit = useCallback(() => {
+    if (revealedRef.current) return
+    revealedRef.current = true
+    setExiting(true)
+    onRevealRef.current()
+  }, [])
 
+  const finish = useCallback(() => {
+    if (completedRef.current) return
+    completedRef.current = true
+    onCompleteRef.current()
+  }, [])
+
+  // Lock scroll while the loader owns the screen.
   useEffect(() => {
-    const root = rootRef.current
-    const svg = svgRef.current
-    const liquid = liquidRef.current
-    const wave = waveRef.current
-    const wave2 = wave2Ref.current
-    const outline = outlineRef.current
-    const eyebrow = eyebrowRef.current
-    const progress = progressRef.current
-    const progressBar = progressBarRef.current
-    const percentLabel = percentRef.current
-
-    const previousOverflow = document.body.style.overflow
+    const previous = document.body.style.overflow
     document.body.style.overflow = "hidden"
-
-    const finish = () => {
-      if (completedRef.current) return
-      completedRef.current = true
-      document.body.style.overflow = previousOverflow
-      onComplete()
-    }
-
-    const hardExit = window.setTimeout(finish, MAX_LOADER_MS)
-
-    if (!root || !svg || !liquid || !wave || !wave2 || !outline || !eyebrow || !progress) {
-      return () => {
-        window.clearTimeout(hardExit)
-        document.body.style.overflow = previousOverflow
-      }
-    }
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduceMotion) {
-      setPercent(100)
-      const reducedExit = window.setTimeout(finish, 180)
-      return () => {
-        window.clearTimeout(hardExit)
-        window.clearTimeout(reducedExit)
-        document.body.style.overflow = previousOverflow
-      }
-    }
-
-    const startY = viewBoxHeight - surfaceY + 20
-    const endY = -(surfaceY + 60)
-    const counter = { value: 0 }
-
-    gsap.set(liquid, { y: startY })
-    gsap.set(progressBar, { scaleX: 0, transformOrigin: "left center" })
-
-    const context = gsap.context(() => {
-      gsap.to(wave, {
-        x: -waveWidth,
-        duration: 3.6,
-        ease: "none",
-        repeat: -1,
-      })
-      gsap.to(wave2, {
-        x: waveWidth * 1.35,
-        duration: 5.4,
-        ease: "none",
-        repeat: -1,
-      })
-
-      const timeline = gsap.timeline({
-        defaults: { overwrite: "auto" },
-        onComplete: finish,
-      })
-
-      timeline
-        .to(
-          liquid,
-          {
-            y: endY,
-            duration: LOAD_DURATION_MS / 1000,
-            ease: "power2.inOut",
-          },
-          0,
-        )
-        .to(
-          progressBar,
-          {
-            scaleX: 1,
-            duration: LOAD_DURATION_MS / 1000,
-            ease: "power2.inOut",
-          },
-          0,
-        )
-        .to(
-          counter,
-          {
-            value: 100,
-            duration: LOAD_DURATION_MS / 1000,
-            ease: "power2.inOut",
-            onUpdate: () => {
-              const nextPercent = Math.round(counter.value)
-              if (percentLabel) percentLabel.textContent = String(nextPercent)
-            },
-          },
-          0,
-        )
-        .to(outline, { strokeOpacity: 0, duration: 0.16, ease: "power2.out" })
-        .to(
-          svg,
-          {
-            scale: 1.08,
-            opacity: 0,
-            duration: EXIT_DURATION_MS / 1000,
-            ease: "power3.out",
-            transformOrigin: "50% 60%",
-          },
-          ">-0.04",
-        )
-        .to(eyebrow, { y: -8, opacity: 0, duration: 0.2, ease: "power3.out" }, "<")
-        .to(progress, { y: 8, opacity: 0, duration: 0.2, ease: "power3.out" }, "<")
-        .to(root, { opacity: 0, duration: 0.2, ease: "power3.out" }, "<+0.08")
-    }, root)
-
     return () => {
-      window.clearTimeout(hardExit)
-      context.revert()
-      document.body.style.overflow = previousOverflow
+      document.body.style.overflow = previous
     }
-  }, [onComplete, surfaceY, viewBoxHeight, waveWidth])
+  }, [])
+
+  // Safety net: never trap the visitor behind the loader.
+  useEffect(() => {
+    const safety = window.setTimeout(() => {
+      beginExit()
+      finish()
+    }, SAFETY_MS)
+    return () => window.clearTimeout(safety)
+  }, [beginExit, finish])
+
+  // Greeting sequence.
+  useEffect(() => {
+    if (exiting) return
+
+    if (reduceMotion) {
+      const t = window.setTimeout(beginExit, 400)
+      return () => window.clearTimeout(t)
+    }
+
+    const last = GREETINGS.length - 1
+    const hold = index === 0 ? FIRST_HOLD_MS : index === last ? LAST_HOLD_MS : HOLD_MS
+    const t = window.setTimeout(() => {
+      if (index < last) setIndex((i) => i + 1)
+      else beginExit()
+    }, hold)
+    return () => window.clearTimeout(t)
+  }, [index, exiting, reduceMotion, beginExit])
+
+  const curtain = reduceMotion
+    ? { animate: exiting ? { opacity: 0 } : { opacity: 1 }, transition: { duration: 0.2 } }
+    : {
+        animate: exiting ? { y: "-100%" } : { y: 0 },
+        transition: { duration: CURTAIN_MS / 1000, ease: CURTAIN_EASE },
+      }
 
   return (
-    <div
-      ref={rootRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#15110c] px-6"
-      aria-label="Loading portfolio"
-      aria-live="polite"
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a0a0a]"
+      initial={false}
+      animate={curtain.animate}
+      transition={curtain.transition}
+      onAnimationComplete={() => {
+        if (exiting) finish()
+      }}
       role="status"
+      aria-live="polite"
     >
-      <p
-        ref={eyebrowRef}
-        className="mb-8 font-mono text-[10px] uppercase tracking-[0.5em] text-white/40 sm:text-xs"
-      >
-        Portfolio
-      </p>
+      <span className="sr-only">Loading</span>
 
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
-        className="w-full max-w-3xl"
-        role="img"
-        aria-label={NAME}
+      {/* Greeting mask — content drifts down slightly as the curtain lifts. */}
+      <motion.div
+        animate={exiting && !reduceMotion ? { y: "18vh" } : { y: 0 }}
+        transition={{ duration: CURTAIN_MS / 1000, ease: CURTAIN_EASE }}
+        aria-hidden="true"
       >
-        <defs>
-          <clipPath id="name-clip">
-            <text
-              x="50%"
-              y="72%"
-              textAnchor="middle"
-              fontSize="190"
-              fontWeight={800}
-              letterSpacing="-6"
-              style={{ fontFamily: '"IBM Plex Sans", "Geist", Arial, sans-serif' }}
+        <div className="relative flex h-[1.4em] w-screen items-center justify-center overflow-hidden text-[clamp(2.75rem,8vw,6rem)] font-medium leading-none tracking-tight text-[#f5f5f5]">
+          <AnimatePresence>
+            <motion.span
+              key={index}
+              className="absolute whitespace-nowrap"
+              initial={{ y: "115%", opacity: 0.4 }}
+              animate={{ y: "0%", opacity: 1 }}
+              exit={{ y: "-115%", opacity: 0.4 }}
+              transition={{ duration: 0.5, ease: EASE }}
             >
-              {NAME}
-            </text>
-          </clipPath>
-        </defs>
-
-        <text
-          ref={outlineRef}
-          x="50%"
-          y="72%"
-          textAnchor="middle"
-          fontSize="190"
-          fontWeight={800}
-          letterSpacing="-6"
-          fill="none"
-          stroke="rgba(237, 204, 190, 0.9)"
-          strokeWidth="1.4"
-          strokeOpacity={1}
-          style={{ fontFamily: '"IBM Plex Sans", "Geist", Arial, sans-serif' }}
-        >
-          {NAME}
-        </text>
-
-        <g clipPath="url(#name-clip)">
-          <g ref={liquidRef} transform={`translate(0 ${viewBoxHeight - surfaceY + 20})`}>
-            <path ref={wave2Ref} d={wavePath2} fill="rgba(237, 204, 190, 0.45)" />
-            <path ref={waveRef} d={wavePath} fill="#edccbe" />
-          </g>
-        </g>
-      </svg>
-
-      <div ref={progressRef} className="mt-10 flex w-full max-w-xs items-center gap-4">
-        <div className="h-px flex-1 overflow-hidden bg-white/10">
-          <div ref={progressBarRef} className="h-full w-full origin-left bg-white/80" />
+              {GREETINGS[index]}
+            </motion.span>
+          </AnimatePresence>
         </div>
-        <span ref={percentRef} className="w-10 text-right font-mono text-xs tabular-nums text-white/50">
-          {percent}
-        </span>
-      </div>
-    </div>
+      </motion.div>
+
+      <p
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.5em] text-white/30"
+        aria-hidden="true"
+      >
+        Aashista Karki
+      </p>
+    </motion.div>
   )
 }
