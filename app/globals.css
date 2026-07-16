@@ -194,6 +194,10 @@ textarea:focus-visible {
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
+  /* Italic serif glyphs overhang their advance width; bleed the mask
+     sideways (with compensating margins) so edges never clip. */
+  padding: 0 0.12em;
+  margin: 0 -0.12em;
 }
 .split-unit {
   display: inline-block;
