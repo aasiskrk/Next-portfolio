@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Fraunces } from 'next/font/google'
+import { Geist, Geist_Mono, Fraunces, Yatra_One } from 'next/font/google'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { CustomCursor } from '@/components/custom-cursor'
 import './globals.css'
@@ -11,6 +11,11 @@ const fraunces = Fraunces({
   style: ['normal', 'italic'],
   axes: ['opsz'],
   variable: '--font-serif',
+})
+const yatraOne = Yatra_One({
+  subsets: ['latin', 'devanagari'],
+  weight: '400',
+  variable: '--font-devanagari',
 })
 
 const siteUrl = 'https://www.aashistakarki.com.np'
@@ -64,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
+      className={`dark bg-background overflow-x-hidden ${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${yatraOne.variable}`}
     >
       <body className="font-sans antialiased overflow-x-hidden">
         <SmoothScroll />

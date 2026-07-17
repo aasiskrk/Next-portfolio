@@ -114,7 +114,10 @@ export function LoadingScreen({ onReveal, onComplete }: LoadingScreenProps) {
         transition={{ duration: CURTAIN_MS / 1000, ease: CURTAIN_EASE }}
         aria-hidden="true"
       >
-        <div className="relative flex h-[1.4em] w-screen items-center justify-center overflow-hidden text-[clamp(2.75rem,8vw,6rem)] font-medium leading-none tracking-tight text-[#f5f5f5]">
+        <div
+          className="relative flex h-[1.4em] w-screen items-center justify-center overflow-hidden text-[clamp(2.75rem,8vw,6rem)] font-medium leading-none tracking-tight text-[#f5f5f5]"
+          style={{ fontFamily: "var(--font-sans), var(--font-devanagari), sans-serif" }}
+        >
           <AnimatePresence>
             <motion.span
               key={index}

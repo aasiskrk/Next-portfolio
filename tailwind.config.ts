@@ -22,6 +22,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         serif: ["var(--font-serif)", "Georgia", "serif"],
+        devanagari: ["var(--font-devanagari)", "serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       transitionTimingFunction: {
